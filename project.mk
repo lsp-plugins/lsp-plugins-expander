@@ -21,7 +21,7 @@
 # Package version
 ARTIFACT_ID                 = LSP_PLUGINS_EXPANDER
 ARTIFACT_NAME               = lsp-plugins-expander
-ARTIFACT_DESC               = Trigger plugin series
+ARTIFACT_DESC               = Expander plugin series
 ARTIFACT_HEADERS            = lsp-plug.in
 ARTIFACT_EXPORT_ALL         = 1
 ARTIFACT_VERSION            = 1.0.3-devel
