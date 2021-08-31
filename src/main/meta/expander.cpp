@@ -144,18 +144,18 @@ namespace lsp
             MESH("scg" id, "Expander sidechain graph" label, 2, expander_metadata::TIME_MESH_SIZE), \
             MESH("evg" id, "Expander envelope graph" label, 2, expander_metadata::TIME_MESH_SIZE), \
             MESH("grg" id, "Expander gain reduciton" label, 2, expander_metadata::TIME_MESH_SIZE), \
-            METER_OUT_GAIN("slm" id, "Sidechain level meter" label, GAIN_AMP_P_24_DB), \
-            METER_OUT_GAIN("clm" id, "Curve level meter" label, GAIN_AMP_P_24_DB), \
-            METER_OUT_GAIN("elm" id, "Envelope level meter" label, GAIN_AMP_P_24_DB), \
-            METER_GAIN_DFL("rlm" id, "Reduction level meter" label, GAIN_AMP_P_48_DB, GAIN_AMP_0_DB)
+            METER_OUT_GAIN("slm" id, "Sidechain level meter" label, GAIN_AMP_P_36_DB), \
+            METER_OUT_GAIN("clm" id, "Curve level meter" label, GAIN_AMP_P_36_DB), \
+            METER_OUT_GAIN("elm" id, "Envelope level meter" label, GAIN_AMP_P_36_DB), \
+            METER_GAIN_DFL("rlm" id, "Reduction level meter" label, GAIN_AMP_P_60_DB, GAIN_AMP_0_DB)
 
         #define EXP_AUDIO_METER(id, label) \
             SWITCH("ilv" id, "Input level visibility" label, 1.0f), \
             SWITCH("olv" id, "Output level visibility" label, 1.0f), \
             MESH("icg" id, "Expander input" label, 2, expander_metadata::TIME_MESH_SIZE), \
             MESH("ocg" id, "Expander output" label, 2, expander_metadata::TIME_MESH_SIZE), \
-            METER_GAIN("ilm" id, "Input level meter" label, GAIN_AMP_P_24_DB), \
-            METER_GAIN("olm" id, "Output level meter" label, GAIN_AMP_P_24_DB)
+            METER_GAIN("ilm" id, "Input level meter" label, GAIN_AMP_P_36_DB), \
+            METER_GAIN("olm" id, "Output level meter" label, GAIN_AMP_P_36_DB)
 
         static const port_t expander_mono_ports[] =
         {
