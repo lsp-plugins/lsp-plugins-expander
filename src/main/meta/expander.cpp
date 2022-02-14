@@ -263,6 +263,15 @@ namespace lsp
             PORTS_END
         };
 
+        const meta::bundle_t expander_bundle =
+        {
+            "expander",
+            "Expander",
+            B_DYNAMICS,
+            "p6otNrilF0U",
+            "This plugin performs increasing of dynamic range of input signal.\nFlexible sidechain-control configuration provided. Both downward\nand upward modes are available. Also additional dry/wet control\nallows to mix processed and unprocessed signal together."
+        };
+
         // Expander
         const meta::plugin_t  expander_mono =
         {
@@ -282,7 +291,8 @@ namespace lsp
             expander_mono_ports,
             "dynamics/expander/single/mono.xml",
             NULL,
-            mono_plugin_port_groups
+            mono_plugin_port_groups,
+            &expander_bundle
         };
 
         const meta::plugin_t  expander_stereo =
@@ -303,7 +313,8 @@ namespace lsp
             expander_stereo_ports,
             "dynamics/expander/single/stereo.xml",
             NULL,
-            stereo_plugin_port_groups
+            stereo_plugin_port_groups,
+            &expander_bundle
         };
 
         const meta::plugin_t  expander_lr =
@@ -324,7 +335,8 @@ namespace lsp
             expander_lr_ports,
             "dynamics/expander/single/lr.xml",
             NULL,
-            stereo_plugin_port_groups
+            stereo_plugin_port_groups,
+            &expander_bundle
         };
 
         const meta::plugin_t  expander_ms =
@@ -345,7 +357,8 @@ namespace lsp
             expander_ms_ports,
             "dynamics/expander/single/ms.xml",
             NULL,
-            stereo_plugin_port_groups
+            stereo_plugin_port_groups,
+            &expander_bundle
         };
 
         // Sidechain expander
@@ -367,7 +380,8 @@ namespace lsp
             sc_expander_mono_ports,
             "dynamics/expander/single/mono.xml",
             NULL,
-            mono_plugin_sidechain_port_groups
+            mono_plugin_sidechain_port_groups,
+            &expander_bundle
         };
 
         const meta::plugin_t  sc_expander_stereo =
@@ -388,7 +402,8 @@ namespace lsp
             sc_expander_stereo_ports,
             "dynamics/expander/single/stereo.xml",
             NULL,
-            stereo_plugin_sidechain_port_groups
+            stereo_plugin_sidechain_port_groups,
+            &expander_bundle
         };
 
         const meta::plugin_t  sc_expander_lr =
@@ -409,7 +424,8 @@ namespace lsp
             sc_expander_lr_ports,
             "dynamics/expander/single/lr.xml",
             NULL,
-            stereo_plugin_sidechain_port_groups
+            stereo_plugin_sidechain_port_groups,
+            &expander_bundle
         };
 
         const meta::plugin_t  sc_expander_ms =
@@ -430,7 +446,8 @@ namespace lsp
             sc_expander_ms_ports,
             "dynamics/expander/single/ms.xml",
             NULL,
-            stereo_plugin_sidechain_port_groups
+            stereo_plugin_sidechain_port_groups,
+            &expander_bundle
         };
     } // namespace meta
 } // namespace lsp

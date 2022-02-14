@@ -1,0 +1,7 @@
+{
+	"expander": {
+		"name": "Expander",
+		"description": "This plugin performs increasing of dynamic range of input signal.\nFlexible sidechain-control configuration provided. Both downward\nand upward modes are available. Also additional dry/wet control\nallows to mix processed and unprocessed signal together."
+	}
+}
+
