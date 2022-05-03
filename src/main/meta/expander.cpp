@@ -25,7 +25,7 @@
 
 #define LSP_PLUGINS_EXPANDER_VERSION_MAJOR       1
 #define LSP_PLUGINS_EXPANDER_VERSION_MINOR       0
-#define LSP_PLUGINS_EXPANDER_VERSION_MICRO       3
+#define LSP_PLUGINS_EXPANDER_VERSION_MICRO       4
 
 #define LSP_PLUGINS_EXPANDER_VERSION  \
     LSP_MODULE_VERSION( \
@@ -269,7 +269,7 @@ namespace lsp
             "Expander",
             B_DYNAMICS,
             "p6otNrilF0U",
-            "This plugin performs increasing of dynamic range of input signal.\nFlexible sidechain-control configuration provided. Both downward\nand upward modes are available. Also additional dry/wet control\nallows to mix processed and unprocessed signal together."
+            "This plugin performs increasing of dynamic range of input signal.\nFlexible sidechain-control configuration provided. Both downward\nand upward modes are available. Also additional dry/wet control\nallows one to mix processed and unprocessed signal together."
         };
 
         // Expander
