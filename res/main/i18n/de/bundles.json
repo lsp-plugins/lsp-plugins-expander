@@ -1,0 +1,7 @@
+{
+	"expander": {
+		"name": "Expander",
+		"description": "Dieses Plugin erweitert die dynamische Bandbreite des Eingangssignals.\nZudem kann die Sidechain flexibel konfiguriert werden. Auf- \nund Abwärtsmodi sind verfügbar. Zusätzliche Dry-/Wet-Steuerung erlaubt das \nMixen von bearbeiteten und unbearbeiteten Signalen gleichzeitig."
+	}
+}
+
