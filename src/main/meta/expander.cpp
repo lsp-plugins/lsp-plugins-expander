@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2021 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2021 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2023 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2023 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-expander
  * Created on: 3 авг. 2021 г.
@@ -64,6 +64,17 @@ namespace lsp
             { NULL, NULL }
         };
 
+        static const port_item_t exp_sc_split_sources[] =
+        {
+            { "Left/Right",     "sidechain.left_right"      },
+            { "Right/Left",     "sidechain.right_left"      },
+            { "Mid/Side",       "sidechain.mid_side"        },
+            { "Side/Mid",       "sidechain.side_mid"        },
+            { "Min",            "sidechain.min"             },
+            { "Max",            "sidechain.max"             },
+            { NULL, NULL }
+        };
+
         static const port_item_t exp_sc_type[] =
         {
             { "Internal",   "sidechain.internal"        },
@@ -97,6 +108,10 @@ namespace lsp
         #define EXP_MS_COMMON  \
             EXP_COMMON,        \
             SWITCH("msl", "Mid/Side listen", 0.0f)
+
+        #define EXP_SPLIT_COMMON \
+            SWITCH("ssplit", "Stereo split", 0.0f), \
+            COMBO("sscs", "Split sidechain source", expander_metadata::SC_SPLIT_SOURCE_DFL, exp_sc_split_sources)
 
         #define EXP_MONO_CHANNEL \
             COMBO("scm", "Sidechain mode", expander_metadata::SC_MODE_DFL, exp_sc_modes), \
@@ -141,23 +156,23 @@ namespace lsp
             AMP_GAIN10("cdr" id, "Dry gain" label, GAIN_AMP_M_INF_DB),     \
             AMP_GAIN10("cwt" id, "Wet gain" label, GAIN_AMP_0_DB), \
             METER_OUT_GAIN("rl" id, "Release level" label, 20.0f), \
+            MESH("ecg" id, "Expander curve graph" label, 2, expander_metadata::CURVE_MESH_SIZE)
+
+        #define EXP_AUDIO_METER(id, label) \
             SWITCH("slv" id, "Sidechain level visibility" label, 1.0f), \
             SWITCH("elv" id, "Envelope level visibility" label, 1.0f), \
             SWITCH("grv" id, "Gain reduction visibility" label, 1.0f), \
-            MESH("ecg" id, "Expander curve graph" label, 2, expander_metadata::CURVE_MESH_SIZE), \
+            SWITCH("ilv" id, "Input level visibility" label, 1.0f), \
+            SWITCH("olv" id, "Output level visibility" label, 1.0f), \
             MESH("scg" id, "Expander sidechain graph" label, 2, expander_metadata::TIME_MESH_SIZE), \
             MESH("evg" id, "Expander envelope graph" label, 2, expander_metadata::TIME_MESH_SIZE), \
             MESH("grg" id, "Expander gain reduciton" label, 2, expander_metadata::TIME_MESH_SIZE), \
+            MESH("icg" id, "Expander input" label, 2, expander_metadata::TIME_MESH_SIZE), \
+            MESH("ocg" id, "Expander output" label, 2, expander_metadata::TIME_MESH_SIZE), \
             METER_OUT_GAIN("slm" id, "Sidechain level meter" label, GAIN_AMP_P_36_DB), \
             METER_OUT_GAIN("clm" id, "Curve level meter" label, GAIN_AMP_P_36_DB), \
             METER_OUT_GAIN("elm" id, "Envelope level meter" label, GAIN_AMP_P_36_DB), \
-            METER_GAIN_DFL("rlm" id, "Reduction level meter" label, GAIN_AMP_P_60_DB, GAIN_AMP_0_DB)
-
-        #define EXP_AUDIO_METER(id, label) \
-            SWITCH("ilv" id, "Input level visibility" label, 1.0f), \
-            SWITCH("olv" id, "Output level visibility" label, 1.0f), \
-            MESH("icg" id, "Expander input" label, 2, expander_metadata::TIME_MESH_SIZE), \
-            MESH("ocg" id, "Expander output" label, 2, expander_metadata::TIME_MESH_SIZE), \
+            METER_GAIN_DFL("rlm" id, "Reduction level meter" label, GAIN_AMP_P_60_DB, GAIN_AMP_0_DB), \
             METER_GAIN("ilm" id, "Input level meter" label, GAIN_AMP_P_36_DB), \
             METER_GAIN("olm" id, "Output level meter" label, GAIN_AMP_P_36_DB)
 
@@ -176,6 +191,7 @@ namespace lsp
         {
             PORTS_STEREO_PLUGIN,
             EXP_COMMON,
+            EXP_SPLIT_COMMON,
             EXP_STEREO_CHANNEL("", ""),
             EXP_CHANNEL("", ""),
             EXP_AUDIO_METER("_l", " Left"),
@@ -229,6 +245,7 @@ namespace lsp
             PORTS_STEREO_PLUGIN,
             PORTS_STEREO_SIDECHAIN,
             EXP_COMMON,
+            EXP_SPLIT_COMMON,
             EXP_SC_STEREO_CHANNEL("", ""),
             EXP_CHANNEL("", ""),
             EXP_AUDIO_METER("_l", " Left"),
@@ -469,5 +486,5 @@ namespace lsp
             stereo_plugin_sidechain_port_groups,
             &expander_bundle
         };
-    } // namespace meta
-} // namespace lsp
+    } /* namespace meta */
+} /* namespace lsp */
