@@ -114,6 +114,7 @@ namespace lsp
 
         expander::~expander()
         {
+            do_destroy();
         }
 
         void expander::init(plug::IWrapper *wrapper, plug::IPort **ports)
@@ -375,6 +376,12 @@ namespace lsp
         }
 
         void expander::destroy()
+        {
+            Module::destroy();
+            do_destroy();
+        }
+
+        void expander::do_destroy()
         {
             if (vChannels != NULL)
             {
