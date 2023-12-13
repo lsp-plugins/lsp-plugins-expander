@@ -298,6 +298,7 @@ namespace lsp
         {
             "Expander Mono",
             "Expander Mono",
+            "Expander Mono",
             "E1M",
             &developers::v_sadovnikov,
             "expander_mono",
@@ -320,6 +321,7 @@ namespace lsp
 
         const meta::plugin_t  expander_stereo =
         {
+            "Expander Stereo",
             "Expander Stereo",
             "Expander Stereo",
             "E1S",
@@ -346,6 +348,7 @@ namespace lsp
         {
             "Expander LeftRight",
             "Expander LeftRight",
+            "Expander L/R",
             "E1LR",
             &developers::v_sadovnikov,
             "expander_lr",
@@ -370,6 +373,7 @@ namespace lsp
         {
             "Expander MidSide",
             "Expander MidSide",
+            "Expander M/S",
             "E1MS",
             &developers::v_sadovnikov,
             "expander_ms",
@@ -395,6 +399,7 @@ namespace lsp
         {
             "Sidechain-Expander Mono",
             "Sidechain Expander Mono",
+            "SC Expander Mono",
             "SCE1M",
             &developers::v_sadovnikov,
             "sc_expander_mono",
@@ -419,6 +424,7 @@ namespace lsp
         {
             "Sidechain-Expander Stereo",
             "Sidechain Expander Stereo",
+            "SC Expander Stereo",
             "SCE1S",
             &developers::v_sadovnikov,
             "sc_expander_stereo",
@@ -443,6 +449,7 @@ namespace lsp
         {
             "Sidechain-Expander LeftRight",
             "Sidechain Expander LeftRight",
+            "SC Expander L/R",
             "SCE1LR",
             &developers::v_sadovnikov,
             "sc_expander_lr",
@@ -467,6 +474,7 @@ namespace lsp
         {
             "Sidechain-Expander MidSide",
             "Sidechain Expander MidSide",
+            "SC Expander M/S",
             "SCE1MS",
             &developers::v_sadovnikov,
             "sc_expander_ms",
