@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2023 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2023 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-expander
- * Created on: 3 авг. 2021 г.
+ * Created on: 3 авг. 2024 г.
  *
  * lsp-plugins-expander is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -26,6 +26,7 @@
 #include <lsp-plug.in/dsp/dsp.h>
 #include <lsp-plug.in/dsp-units/units.h>
 #include <lsp-plug.in/shared/id_colors.h>
+#include <lsp-plug.in/shared/debug.h>
 
 #define EXP_BUF_SIZE            0x1000
 
@@ -33,12 +34,6 @@ namespace lsp
 {
     namespace plugins
     {
-        static plug::IPort *TRACE_PORT(plug::IPort *p)
-        {
-            lsp_trace("  port id=%s", (p)->metadata()->id);
-            return p;
-        }
-
         //-------------------------------------------------------------------------
         // Plugin factory
         typedef struct plugin_settings_t
@@ -230,34 +225,34 @@ namespace lsp
             // Input ports
             lsp_trace("Binding input ports");
             for (size_t i=0; i<channels; ++i)
-                vChannels[i].pIn        =   TRACE_PORT(ports[port_id++]);
+                BIND_PORT(vChannels[i].pIn);
 
             // Input ports
             lsp_trace("Binding output ports");
             for (size_t i=0; i<channels; ++i)
-                vChannels[i].pOut       =   TRACE_PORT(ports[port_id++]);
+                BIND_PORT(vChannels[i].pOut);
 
             // Input ports
             if (bSidechain)
             {
                 lsp_trace("Binding sidechain ports");
                 for (size_t i=0; i<channels; ++i)
-                    vChannels[i].pSC        =   TRACE_PORT(ports[port_id++]);
+                    BIND_PORT(vChannels[i].pSC);
             }
 
             // Common ports
             lsp_trace("Binding common ports");
-            pBypass                 =   TRACE_PORT(ports[port_id++]);
-            pInGain                 =   TRACE_PORT(ports[port_id++]);
-            pOutGain                =   TRACE_PORT(ports[port_id++]);
-            pPause                  =   TRACE_PORT(ports[port_id++]);
-            pClear                  =   TRACE_PORT(ports[port_id++]);
+            BIND_PORT(pBypass);
+            BIND_PORT(pInGain);
+            BIND_PORT(pOutGain);
+            BIND_PORT(pPause);
+            BIND_PORT(pClear);
             if (nMode == EM_MS)
-                pMSListen               =   TRACE_PORT(ports[port_id++]);
+                BIND_PORT(pMSListen);
             if (nMode == EM_STEREO)
             {
-                pStereoSplit            =   TRACE_PORT(ports[port_id++]);
-                pScSpSource             =   TRACE_PORT(ports[port_id++]);
+                BIND_PORT(pStereoSplit);
+                BIND_PORT(pScSpSource);
             }
 
             // Sidechain ports
@@ -284,18 +279,18 @@ namespace lsp
                 else
                 {
                     if (bSidechain)
-                        c->pScType          =   TRACE_PORT(ports[port_id++]);
-                    c->pScMode          =   TRACE_PORT(ports[port_id++]);
-                    c->pScLookahead     =   TRACE_PORT(ports[port_id++]);
-                    c->pScListen        =   TRACE_PORT(ports[port_id++]);
+                        BIND_PORT(c->pScType);
+                    BIND_PORT(c->pScMode);
+                    BIND_PORT(c->pScLookahead);
+                    BIND_PORT(c->pScListen);
                     if (nMode != EM_MONO)
-                        c->pScSource        =   TRACE_PORT(ports[port_id++]);
-                    c->pScReactivity    =   TRACE_PORT(ports[port_id++]);
-                    c->pScPreamp        =   TRACE_PORT(ports[port_id++]);
-                    c->pScHpfMode       =   TRACE_PORT(ports[port_id++]);
-                    c->pScHpfFreq       =   TRACE_PORT(ports[port_id++]);
-                    c->pScLpfMode       =   TRACE_PORT(ports[port_id++]);
-                    c->pScLpfFreq       =   TRACE_PORT(ports[port_id++]);
+                        BIND_PORT(c->pScSource);
+                    BIND_PORT(c->pScReactivity);
+                    BIND_PORT(c->pScPreamp);
+                    BIND_PORT(c->pScHpfMode);
+                    BIND_PORT(c->pScHpfFreq);
+                    BIND_PORT(c->pScLpfMode);
+                    BIND_PORT(c->pScLpfFreq);
                 }
             }
 
@@ -322,18 +317,18 @@ namespace lsp
                 }
                 else
                 {
-                    c->pMode            =   TRACE_PORT(ports[port_id++]);
-                    c->pAttackLvl       =   TRACE_PORT(ports[port_id++]);
-                    c->pAttackTime      =   TRACE_PORT(ports[port_id++]);
-                    c->pReleaseLvl      =   TRACE_PORT(ports[port_id++]);
-                    c->pReleaseTime     =   TRACE_PORT(ports[port_id++]);
-                    c->pRatio           =   TRACE_PORT(ports[port_id++]);
-                    c->pKnee            =   TRACE_PORT(ports[port_id++]);
-                    c->pMakeup          =   TRACE_PORT(ports[port_id++]);
-                    c->pDryGain         =   TRACE_PORT(ports[port_id++]);
-                    c->pWetGain         =   TRACE_PORT(ports[port_id++]);
-                    c->pReleaseOut      =   TRACE_PORT(ports[port_id++]);
-                    c->pCurve           =   TRACE_PORT(ports[port_id++]);
+                    BIND_PORT(c->pMode);
+                    BIND_PORT(c->pAttackLvl);
+                    BIND_PORT(c->pAttackTime);
+                    BIND_PORT(c->pReleaseLvl);
+                    BIND_PORT(c->pReleaseTime);
+                    BIND_PORT(c->pRatio);
+                    BIND_PORT(c->pKnee);
+                    BIND_PORT(c->pMakeup);
+                    BIND_PORT(c->pDryGain);
+                    BIND_PORT(c->pWetGain);
+                    BIND_PORT(c->pReleaseOut);
+                    BIND_PORT(c->pCurve);
                 }
             }
 
@@ -344,24 +339,24 @@ namespace lsp
                 channel_t *c = &vChannels[i];
 
                 // Skip meters visibility controls
-                TRACE_PORT(ports[port_id++]);
-                TRACE_PORT(ports[port_id++]);
-                TRACE_PORT(ports[port_id++]);
-                TRACE_PORT(ports[port_id++]);
-                TRACE_PORT(ports[port_id++]);
+                SKIP_PORT("Sidechain switch");
+                SKIP_PORT("Envelope switch");
+                SKIP_PORT("Gain reduction switch");
+                SKIP_PORT("Input switch");
+                SKIP_PORT("Output switch");
 
                 // Bind ports
-                c->pGraph[G_SC]     =   TRACE_PORT(ports[port_id++]);
-                c->pGraph[G_ENV]    =   TRACE_PORT(ports[port_id++]);
-                c->pGraph[G_GAIN]   =   TRACE_PORT(ports[port_id++]);
-                c->pGraph[G_IN]     =   TRACE_PORT(ports[port_id++]);
-                c->pGraph[G_OUT]    =   TRACE_PORT(ports[port_id++]);
-                c->pMeter[M_SC]     =   TRACE_PORT(ports[port_id++]);
-                c->pMeter[M_CURVE]  =   TRACE_PORT(ports[port_id++]);
-                c->pMeter[M_ENV]    =   TRACE_PORT(ports[port_id++]);
-                c->pMeter[M_GAIN]   =   TRACE_PORT(ports[port_id++]);
-                c->pMeter[M_IN]     =   TRACE_PORT(ports[port_id++]);
-                c->pMeter[M_OUT]    =   TRACE_PORT(ports[port_id++]);
+                BIND_PORT(c->pGraph[G_SC]);
+                BIND_PORT(c->pGraph[G_ENV]);
+                BIND_PORT(c->pGraph[G_GAIN]);
+                BIND_PORT(c->pGraph[G_IN]);
+                BIND_PORT(c->pGraph[G_OUT]);
+                BIND_PORT(c->pMeter[M_SC]);
+                BIND_PORT(c->pMeter[M_CURVE]);
+                BIND_PORT(c->pMeter[M_ENV]);
+                BIND_PORT(c->pMeter[M_GAIN]);
+                BIND_PORT(c->pMeter[M_IN]);
+                BIND_PORT(c->pMeter[M_OUT]);
             }
 
             // Initialize curve (logarithmic) in range of -72 .. +24 db
