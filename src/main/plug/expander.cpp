@@ -208,11 +208,14 @@ namespace lsp
                 c->pReleaseLvl      = NULL;
                 c->pAttackTime      = NULL;
                 c->pReleaseTime     = NULL;
+                c->pHoldTime        = NULL;
                 c->pRatio           = NULL;
                 c->pKnee            = NULL;
                 c->pMakeup          = NULL;
+                c->pDryWetOn        = NULL;
                 c->pDryGain         = NULL;
                 c->pWetGain         = NULL;
+                c->pDryWet          = NULL;
                 c->pCurve           = NULL;
                 c->pReleaseOut      = NULL;
             }
@@ -309,11 +312,14 @@ namespace lsp
                     c->pAttackTime      = sc->pAttackTime;
                     c->pReleaseLvl      = sc->pReleaseLvl;
                     c->pReleaseTime     = sc->pReleaseTime;
+                    c->pHoldTime        = sc->pHoldTime;
                     c->pRatio           = sc->pRatio;
                     c->pKnee            = sc->pKnee;
                     c->pMakeup          = sc->pMakeup;
+                    c->pDryWetOn        = sc->pDryWetOn;
                     c->pDryGain         = sc->pDryGain;
                     c->pWetGain         = sc->pWetGain;
+                    c->pDryWet          = sc->pDryWet;
                 }
                 else
                 {
@@ -322,11 +328,14 @@ namespace lsp
                     BIND_PORT(c->pAttackTime);
                     BIND_PORT(c->pReleaseLvl);
                     BIND_PORT(c->pReleaseTime);
+                    BIND_PORT(c->pHoldTime);
                     BIND_PORT(c->pRatio);
                     BIND_PORT(c->pKnee);
                     BIND_PORT(c->pMakeup);
+                    BIND_PORT(c->pDryWetOn);
                     BIND_PORT(c->pDryGain);
                     BIND_PORT(c->pWetGain);
+                    BIND_PORT(c->pDryWet);
                     BIND_PORT(c->pReleaseOut);
                     BIND_PORT(c->pCurve);
                 }
@@ -550,6 +559,7 @@ namespace lsp
 
                 c->sExp.set_threshold(attack, release);
                 c->sExp.set_timings(c->pAttackTime->value(), c->pReleaseTime->value());
+                c->sExp.set_hold(c->pHoldTime->value());
                 c->sExp.set_ratio(c->pRatio->value());
                 c->sExp.set_knee(c->pKnee->value());
                 c->sExp.set_mode((upward) ? dspu::EM_UPWARD : dspu::EM_DOWNWARD);
@@ -565,8 +575,17 @@ namespace lsp
                 }
 
                 // Update gains
-                c->fDryGain         = c->pDryGain->value() * out_gain;
-                c->fWetGain         = c->pWetGain->value() * out_gain;
+                if (c->pDryWetOn->value() >= 0.5f)
+                {
+                    const float drywet  = c->pDryWet->value() * 0.01f;
+                    c->fDryGain         = (1.0f - drywet) * out_gain;
+                    c->fWetGain         = drywet * out_gain;
+                }
+                else
+                {
+                    c->fDryGain         = c->pDryGain->value() * out_gain;
+                    c->fWetGain         = c->pWetGain->value() * out_gain;
+                }
                 if (c->fMakeup != makeup)
                 {
                     c->fMakeup          = makeup;
@@ -1000,12 +1019,15 @@ namespace lsp
                     v->write("pReleaseLvl", c->pReleaseLvl);
                     v->write("pAttackTime", c->pAttackTime);
                     v->write("pReleaseTime", c->pReleaseTime);
+                    v->write("pHoldTime", c->pHoldTime);
                     v->write("pRatio", c->pRatio);
                     v->write("pKnee", c->pKnee);
                     v->write("pMakeup", c->pMakeup);
 
+                    v->write("pDryWetOn", c->pDryWetOn);
                     v->write("pDryGain", c->pDryGain);
                     v->write("pWetGain", c->pWetGain);
+                    v->write("pDryWet", c->pDryWet);
                     v->write("pCurve", c->pCurve);
                     v->write("pReleaseOut", c->pReleaseOut);
                 }

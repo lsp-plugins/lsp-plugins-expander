@@ -150,11 +150,14 @@ namespace lsp
             LOG_CONTROL("at" id, "Attack time" label, U_MSEC, expander_metadata::ATTACK_TIME), \
             LOG_CONTROL("rrl" id, "Release threshold" label, U_GAIN_AMP, expander_metadata::RELEASE_LVL), \
             LOG_CONTROL("rt" id, "Release time" label, U_MSEC, expander_metadata::RELEASE_TIME), \
+            CONTROL("hold" id, "Hold time" label, U_MSEC, expander_metadata::HOLD_TIME), \
             LOG_CONTROL("er" id, "Ratio" label, U_NONE, expander_metadata::RATIO), \
             LOG_CONTROL("kn" id, "Knee" label, U_GAIN_AMP, expander_metadata::KNEE), \
             LOG_CONTROL("mk" id, "Makeup gain" label, U_GAIN_AMP, expander_metadata::MAKEUP), \
+            SWITCH("dwe" id, "Dry/Wet balance enable", 0), \
             AMP_GAIN10("cdr" id, "Dry gain" label, GAIN_AMP_M_INF_DB),     \
             AMP_GAIN10("cwt" id, "Wet gain" label, GAIN_AMP_0_DB), \
+            PERCENTS("cdw" id, "Dry/Wet balance" label, 100.0f, 0.1f), \
             METER_OUT_GAIN("rl" id, "Release level" label, 20.0f), \
             MESH("ecg" id, "Expander curve graph" label, 2, expander_metadata::CURVE_MESH_SIZE)
 
