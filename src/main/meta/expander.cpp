@@ -169,8 +169,8 @@ namespace lsp
             SWITCH("olv" id, "Output level visibility" label, 1.0f), \
             MESH("scg" id, "Expander sidechain graph" label, 2, expander_metadata::TIME_MESH_SIZE), \
             MESH("evg" id, "Expander envelope graph" label, 2, expander_metadata::TIME_MESH_SIZE), \
-            MESH("grg" id, "Expander gain reduciton" label, 2, expander_metadata::TIME_MESH_SIZE), \
-            MESH("icg" id, "Expander input" label, 2, expander_metadata::TIME_MESH_SIZE), \
+            MESH("grg" id, "Expander gain reduciton" label, 2, expander_metadata::TIME_MESH_SIZE + 4), \
+            MESH("icg" id, "Expander input" label, 2, expander_metadata::TIME_MESH_SIZE + 4), \
             MESH("ocg" id, "Expander output" label, 2, expander_metadata::TIME_MESH_SIZE), \
             METER_OUT_GAIN("slm" id, "Sidechain level meter" label, GAIN_AMP_P_36_DB), \
             METER_OUT_GAIN("clm" id, "Curve level meter" label, GAIN_AMP_P_36_DB), \
