@@ -33,7 +33,7 @@
 						</ui:attributes>
 
 						<!-- Meshes -->
-					<mesh id="icg_l" width="0" color="left_in" fcolor="left_in" fcolor.a="0.8" fill="true" visibility=":ilv_l"/>
+						<mesh id="icg_l" width="0" color="left_in" fcolor="left_in" fcolor.a="0.8" fill="true" visibility=":ilv_l"/>
 						<mesh id="icg_r" width="0" color="right_in" fcolor="right_in" fcolor.a="0.8" fill="true" visibility=":ilv_r"/>
 						<mesh id="ocg_l" width="2" color="left" visibility=":olv_l"/>
 						<mesh id="ocg_r" width="2" color="right" visibility=":olv_r"/>
@@ -80,8 +80,8 @@
 				<hbox spacing="4" vexpand="false" bg.color="bg_schema" pad.h="6">
 					<button id="pause" height="22" width="48" text="labels.pause" pad.v="4" ui:inject="Button_green"/>
 					<button id="clear" height="22" width="48" text="labels.clear" pad.v="4" ui:inject="Button_red"/>
-					<void hexpand="true" />
-					<vsep pad.h="2" bg.color="bg" reduce="true" />
+					<void hexpand="true"/>
+					<vsep pad.h="2" bg.color="bg" reduce="true"/>
 					<button id="ssplit" text="labels.stereo_split" size="22" pad.v="4" ui:inject="Button_blue"/>
 				</hbox>
 			</vbox>
@@ -108,14 +108,14 @@
 
 				<!-- Sidechain signal meter -->
 				<ledmeter vexpand="true" height.min="256" angle="1">
-					<ledchannel id="slm_l" min="-72 db" max="24 db" log="true" type="peak"  value.color="sidechain"/>
-					<ledchannel id="slm_r" min="-72 db" max="24 db" log="true" type="peak"  value.color="sidechain"/>
+					<ledchannel id="slm_l" min="-72 db" max="24 db" log="true" type="peak" value.color="sidechain"/>
+					<ledchannel id="slm_r" min="-72 db" max="24 db" log="true" type="peak" value.color="sidechain"/>
 				</ledmeter>
 
 				<!-- Envelope signal meter -->
 				<ledmeter vexpand="true" height.min="256" angle="1">
-					<ledchannel id="elm_l" min="-72 db" max="24 db" log="true" type="peak"  value.color="envelope"/>
-					<ledchannel id="elm_r" min="-72 db" max="24 db" log="true" type="peak"  value.color="envelope"/>
+					<ledchannel id="elm_l" min="-72 db" max="24 db" log="true" type="peak" value.color="envelope"/>
+					<ledchannel id="elm_r" min="-72 db" max="24 db" log="true" type="peak" value.color="envelope"/>
 				</ledmeter>
 
 				<!-- Gain signal meter -->
@@ -160,7 +160,7 @@
 					<dot x.id="elm_r" y.id="clm_r" color="right" bcolor="right" visibility=":ssplit"/>
 
 					<!-- Markers -->
-					<marker id="al" editable="true" width="2" pointer="hsize" color="attack_1" hcolor="attack_1"/>
+					<marker id="al" editable="true" width="2" pointer="hsize" color="threshold" hcolor="threshold"/>
 					<marker id="rl" color="release_1"/>
 
 					<!-- Text -->
@@ -271,10 +271,10 @@
 					<cell rows="3">
 						<vbox fill="false" spacing="1" pad.t="4" pad.h="6">
 							<ui:with pad.b="4" hfill="true">
-								<combo id="sci" visibility="ex :sci" />
-								<combo id="scm" />
-								<combo id="scs" visibility="!:ssplit" />
-								<combo id="sscs" visibility=":ssplit" />
+								<combo id="sci" visibility="ex :sci"/>
+								<combo id="scm"/>
+								<combo id="scs" visibility="!:ssplit"/>
+								<combo id="sscs" visibility=":ssplit"/>
 								<button id="scl" height="22" hfill="true" text="labels.listen" ui:inject="Button_cyan"/>
 							</ui:with>
 						</vbox>
@@ -339,13 +339,11 @@
 						<label text="labels.thresh_old"/>
 						<label text="labels.time"/>
 					</ui:with>
-					<cell rows="2"><knob id="hold" size="20" pad.h="6" /></cell>
-					<ui:with pad.t="4">
-						<label text="labels.signal.dry"/>
-						<label text="labels.signal.wet"/>
-					</ui:with>
+					<cell rows="2"><knob id="hold" size="20" pad.h="6"/></cell>
+					<label text="labels.signal.dry"/>
+					<label text="labels.signal.wet"/>
 					<cell rows="3" bg.color="bg" pad.h="2" hreduce="true"><vsep/></cell>
-					<label text="labels.signal.drywet" pad.t="4" pad.h="6"/>
+					<label text="labels.signal.drywet" pad.h="6"/>
 
 					<!-- row 4 -->
 					<knob id="al" scolor="attack_1" size="20" pad.h="6" pad.v="4"/>
