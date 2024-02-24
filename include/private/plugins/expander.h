@@ -143,7 +143,6 @@ namespace lsp
                     plug::IPort            *pKnee;              // Knee
                     plug::IPort            *pMakeup;            // Makeup
 
-                    plug::IPort            *pDryWetOn;          // Dry/Wet balance enable
                     plug::IPort            *pDryGain;           // Dry gain
                     plug::IPort            *pWetGain;           // Wet gain
                     plug::IPort            *pDryWet;            // Dry/Wet balance
