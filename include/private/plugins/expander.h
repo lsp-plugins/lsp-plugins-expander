@@ -138,12 +138,14 @@ namespace lsp
                     plug::IPort            *pReleaseLvl;        // Release level
                     plug::IPort            *pAttackTime;        // Attack time
                     plug::IPort            *pReleaseTime;       // Release time
+                    plug::IPort            *pHoldTime;          // Hold time
                     plug::IPort            *pRatio;             // Ratio
                     plug::IPort            *pKnee;              // Knee
                     plug::IPort            *pMakeup;            // Makeup
 
                     plug::IPort            *pDryGain;           // Dry gain
                     plug::IPort            *pWetGain;           // Wet gain
+                    plug::IPort            *pDryWet;            // Dry/Wet balance
                     plug::IPort            *pCurve;             // Curve graph
                     plug::IPort            *pReleaseOut;        // Output release level
                 } channel_t;

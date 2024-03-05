@@ -1,9 +1,9 @@
 /*
- * Copyright (C) 2023 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2023 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2024 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2024 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-expander
- * Created on: 3 авг. 2021 г.
+ * Created on: 3 авг. 2024 г.
  *
  * lsp-plugins-expander is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
@@ -26,6 +26,7 @@
 #include <lsp-plug.in/dsp/dsp.h>
 #include <lsp-plug.in/dsp-units/units.h>
 #include <lsp-plug.in/shared/id_colors.h>
+#include <lsp-plug.in/shared/debug.h>
 
 #define EXP_BUF_SIZE            0x1000
 
@@ -33,12 +34,6 @@ namespace lsp
 {
     namespace plugins
     {
-        static plug::IPort *TRACE_PORT(plug::IPort *p)
-        {
-            lsp_trace("  port id=%s", (p)->metadata()->id);
-            return p;
-        }
-
         //-------------------------------------------------------------------------
         // Plugin factory
         typedef struct plugin_settings_t
@@ -136,12 +131,9 @@ namespace lsp
             if (ptr == NULL)
                 return;
 
-            vChannels               = reinterpret_cast<channel_t *>(ptr);
-            ptr                    += channel_size;
-            vCurve                  = reinterpret_cast<float *>(ptr);
-            ptr                    += curve_size;
-            vTime                   = reinterpret_cast<float *>(ptr);
-            ptr                    += history_size;
+            vChannels               = advance_ptr_bytes<channel_t>(ptr, channel_size);
+            vCurve                  = advance_ptr_bytes<float>(ptr, curve_size);
+            vTime                   = advance_ptr_bytes<float>(ptr, history_size);
 
             // Initialize channels
             for (size_t i=0; i<channels; ++i)
@@ -167,16 +159,11 @@ namespace lsp
                 c->sSCEq.set_mode(dspu::EQM_IIR);
                 c->sSC.set_pre_equalizer(&c->sSCEq);
 
-                c->vIn              = reinterpret_cast<float *>(ptr);
-                ptr                += buf_size;
-                c->vOut             = reinterpret_cast<float *>(ptr);
-                ptr                += buf_size;
-                c->vSc              = reinterpret_cast<float *>(ptr);
-                ptr                += buf_size;
-                c->vEnv             = reinterpret_cast<float *>(ptr);
-                ptr                += buf_size;
-                c->vGain            = reinterpret_cast<float *>(ptr);
-                ptr                += buf_size;
+                c->vIn              = advance_ptr_bytes<float>(ptr, buf_size);
+                c->vOut             = advance_ptr_bytes<float>(ptr, buf_size);
+                c->vSc              = advance_ptr_bytes<float>(ptr, buf_size);
+                c->vEnv             = advance_ptr_bytes<float>(ptr, buf_size);
+                c->vGain            = advance_ptr_bytes<float>(ptr, buf_size);
                 c->bScListen        = false;
                 c->nSync            = S_ALL;
                 c->nScType          = SCT_INTERNAL;
@@ -213,11 +200,13 @@ namespace lsp
                 c->pReleaseLvl      = NULL;
                 c->pAttackTime      = NULL;
                 c->pReleaseTime     = NULL;
+                c->pHoldTime        = NULL;
                 c->pRatio           = NULL;
                 c->pKnee            = NULL;
                 c->pMakeup          = NULL;
                 c->pDryGain         = NULL;
                 c->pWetGain         = NULL;
+                c->pDryWet          = NULL;
                 c->pCurve           = NULL;
                 c->pReleaseOut      = NULL;
             }
@@ -230,34 +219,34 @@ namespace lsp
             // Input ports
             lsp_trace("Binding input ports");
             for (size_t i=0; i<channels; ++i)
-                vChannels[i].pIn        =   TRACE_PORT(ports[port_id++]);
+                BIND_PORT(vChannels[i].pIn);
 
             // Input ports
             lsp_trace("Binding output ports");
             for (size_t i=0; i<channels; ++i)
-                vChannels[i].pOut       =   TRACE_PORT(ports[port_id++]);
+                BIND_PORT(vChannels[i].pOut);
 
             // Input ports
             if (bSidechain)
             {
                 lsp_trace("Binding sidechain ports");
                 for (size_t i=0; i<channels; ++i)
-                    vChannels[i].pSC        =   TRACE_PORT(ports[port_id++]);
+                    BIND_PORT(vChannels[i].pSC);
             }
 
             // Common ports
             lsp_trace("Binding common ports");
-            pBypass                 =   TRACE_PORT(ports[port_id++]);
-            pInGain                 =   TRACE_PORT(ports[port_id++]);
-            pOutGain                =   TRACE_PORT(ports[port_id++]);
-            pPause                  =   TRACE_PORT(ports[port_id++]);
-            pClear                  =   TRACE_PORT(ports[port_id++]);
+            BIND_PORT(pBypass);
+            BIND_PORT(pInGain);
+            BIND_PORT(pOutGain);
+            BIND_PORT(pPause);
+            BIND_PORT(pClear);
             if (nMode == EM_MS)
-                pMSListen               =   TRACE_PORT(ports[port_id++]);
+                BIND_PORT(pMSListen);
             if (nMode == EM_STEREO)
             {
-                pStereoSplit            =   TRACE_PORT(ports[port_id++]);
-                pScSpSource             =   TRACE_PORT(ports[port_id++]);
+                BIND_PORT(pStereoSplit);
+                BIND_PORT(pScSpSource);
             }
 
             // Sidechain ports
@@ -284,18 +273,18 @@ namespace lsp
                 else
                 {
                     if (bSidechain)
-                        c->pScType          =   TRACE_PORT(ports[port_id++]);
-                    c->pScMode          =   TRACE_PORT(ports[port_id++]);
-                    c->pScLookahead     =   TRACE_PORT(ports[port_id++]);
-                    c->pScListen        =   TRACE_PORT(ports[port_id++]);
+                        BIND_PORT(c->pScType);
+                    BIND_PORT(c->pScMode);
+                    BIND_PORT(c->pScLookahead);
+                    BIND_PORT(c->pScListen);
                     if (nMode != EM_MONO)
-                        c->pScSource        =   TRACE_PORT(ports[port_id++]);
-                    c->pScReactivity    =   TRACE_PORT(ports[port_id++]);
-                    c->pScPreamp        =   TRACE_PORT(ports[port_id++]);
-                    c->pScHpfMode       =   TRACE_PORT(ports[port_id++]);
-                    c->pScHpfFreq       =   TRACE_PORT(ports[port_id++]);
-                    c->pScLpfMode       =   TRACE_PORT(ports[port_id++]);
-                    c->pScLpfFreq       =   TRACE_PORT(ports[port_id++]);
+                        BIND_PORT(c->pScSource);
+                    BIND_PORT(c->pScReactivity);
+                    BIND_PORT(c->pScPreamp);
+                    BIND_PORT(c->pScHpfMode);
+                    BIND_PORT(c->pScHpfFreq);
+                    BIND_PORT(c->pScLpfMode);
+                    BIND_PORT(c->pScLpfFreq);
                 }
             }
 
@@ -314,26 +303,30 @@ namespace lsp
                     c->pAttackTime      = sc->pAttackTime;
                     c->pReleaseLvl      = sc->pReleaseLvl;
                     c->pReleaseTime     = sc->pReleaseTime;
+                    c->pHoldTime        = sc->pHoldTime;
                     c->pRatio           = sc->pRatio;
                     c->pKnee            = sc->pKnee;
                     c->pMakeup          = sc->pMakeup;
                     c->pDryGain         = sc->pDryGain;
                     c->pWetGain         = sc->pWetGain;
+                    c->pDryWet          = sc->pDryWet;
                 }
                 else
                 {
-                    c->pMode            =   TRACE_PORT(ports[port_id++]);
-                    c->pAttackLvl       =   TRACE_PORT(ports[port_id++]);
-                    c->pAttackTime      =   TRACE_PORT(ports[port_id++]);
-                    c->pReleaseLvl      =   TRACE_PORT(ports[port_id++]);
-                    c->pReleaseTime     =   TRACE_PORT(ports[port_id++]);
-                    c->pRatio           =   TRACE_PORT(ports[port_id++]);
-                    c->pKnee            =   TRACE_PORT(ports[port_id++]);
-                    c->pMakeup          =   TRACE_PORT(ports[port_id++]);
-                    c->pDryGain         =   TRACE_PORT(ports[port_id++]);
-                    c->pWetGain         =   TRACE_PORT(ports[port_id++]);
-                    c->pReleaseOut      =   TRACE_PORT(ports[port_id++]);
-                    c->pCurve           =   TRACE_PORT(ports[port_id++]);
+                    BIND_PORT(c->pMode);
+                    BIND_PORT(c->pAttackLvl);
+                    BIND_PORT(c->pAttackTime);
+                    BIND_PORT(c->pReleaseLvl);
+                    BIND_PORT(c->pReleaseTime);
+                    BIND_PORT(c->pHoldTime);
+                    BIND_PORT(c->pRatio);
+                    BIND_PORT(c->pKnee);
+                    BIND_PORT(c->pMakeup);
+                    BIND_PORT(c->pDryGain);
+                    BIND_PORT(c->pWetGain);
+                    BIND_PORT(c->pDryWet);
+                    BIND_PORT(c->pReleaseOut);
+                    BIND_PORT(c->pCurve);
                 }
             }
 
@@ -344,24 +337,24 @@ namespace lsp
                 channel_t *c = &vChannels[i];
 
                 // Skip meters visibility controls
-                TRACE_PORT(ports[port_id++]);
-                TRACE_PORT(ports[port_id++]);
-                TRACE_PORT(ports[port_id++]);
-                TRACE_PORT(ports[port_id++]);
-                TRACE_PORT(ports[port_id++]);
+                SKIP_PORT("Sidechain switch");
+                SKIP_PORT("Envelope switch");
+                SKIP_PORT("Gain reduction switch");
+                SKIP_PORT("Input switch");
+                SKIP_PORT("Output switch");
 
                 // Bind ports
-                c->pGraph[G_SC]     =   TRACE_PORT(ports[port_id++]);
-                c->pGraph[G_ENV]    =   TRACE_PORT(ports[port_id++]);
-                c->pGraph[G_GAIN]   =   TRACE_PORT(ports[port_id++]);
-                c->pGraph[G_IN]     =   TRACE_PORT(ports[port_id++]);
-                c->pGraph[G_OUT]    =   TRACE_PORT(ports[port_id++]);
-                c->pMeter[M_SC]     =   TRACE_PORT(ports[port_id++]);
-                c->pMeter[M_CURVE]  =   TRACE_PORT(ports[port_id++]);
-                c->pMeter[M_ENV]    =   TRACE_PORT(ports[port_id++]);
-                c->pMeter[M_GAIN]   =   TRACE_PORT(ports[port_id++]);
-                c->pMeter[M_IN]     =   TRACE_PORT(ports[port_id++]);
-                c->pMeter[M_OUT]    =   TRACE_PORT(ports[port_id++]);
+                BIND_PORT(c->pGraph[G_SC]);
+                BIND_PORT(c->pGraph[G_ENV]);
+                BIND_PORT(c->pGraph[G_GAIN]);
+                BIND_PORT(c->pGraph[G_IN]);
+                BIND_PORT(c->pGraph[G_OUT]);
+                BIND_PORT(c->pMeter[M_SC]);
+                BIND_PORT(c->pMeter[M_CURVE]);
+                BIND_PORT(c->pMeter[M_ENV]);
+                BIND_PORT(c->pMeter[M_GAIN]);
+                BIND_PORT(c->pMeter[M_IN]);
+                BIND_PORT(c->pMeter[M_OUT]);
             }
 
             // Initialize curve (logarithmic) in range of -72 .. +24 db
@@ -550,11 +543,11 @@ namespace lsp
                 // Update expander settings
                 float attack    = c->pAttackLvl->value();
                 float release   = c->pReleaseLvl->value() * attack;
-                float makeup    = c->pMakeup->value();
                 bool upward     = c->pMode->value() >= 0.5f;
 
                 c->sExp.set_threshold(attack, release);
                 c->sExp.set_timings(c->pAttackTime->value(), c->pReleaseTime->value());
+                c->sExp.set_hold(c->pHoldTime->value());
                 c->sExp.set_ratio(c->pRatio->value());
                 c->sExp.set_knee(c->pKnee->value());
                 c->sExp.set_mode((upward) ? dspu::EM_UPWARD : dspu::EM_DOWNWARD);
@@ -570,8 +563,14 @@ namespace lsp
                 }
 
                 // Update gains
-                c->fDryGain         = c->pDryGain->value() * out_gain;
-                c->fWetGain         = c->pWetGain->value() * out_gain;
+                const float makeup      = c->pMakeup->value();
+                const float dry_gain    = c->pDryGain->value();
+                const float wet_gain    = c->pWetGain->value() * makeup;
+                const float drywet      = c->pDryWet->value() * 0.01f;
+
+                c->fDryGain         = (dry_gain * drywet + 1.0f - drywet) * out_gain;
+                c->fWetGain         = wet_gain * drywet * out_gain;
+
                 if (c->fMakeup != makeup)
                 {
                     c->fMakeup          = makeup;
@@ -686,8 +685,8 @@ namespace lsp
                     channel_t *cm       = &vChannels[0];
                     channel_t *cs       = &vChannels[1];
 
-                    dsp::mix2(cm->vOut, cm->vIn, cm->fMakeup * cm->fWetGain, cm->fDryGain, to_process);
-                    dsp::mix2(cs->vOut, cs->vIn, cs->fMakeup * cs->fWetGain, cs->fDryGain, to_process);
+                    dsp::mix2(cm->vOut, cm->vIn, cm->fWetGain, cm->fDryGain, to_process);
+                    dsp::mix2(cs->vOut, cs->vIn, cs->fWetGain, cs->fDryGain, to_process);
 
                     cm->sGraph[G_OUT].process(cm->vOut, to_process);
                     cm->pMeter[M_OUT]->set_value(dsp::abs_max(cm->vOut, to_process));
@@ -710,7 +709,7 @@ namespace lsp
                         if (c->bScListen)
                             dsp::copy(c->vOut, c->vSc, to_process);
                         else
-                            dsp::mix2(c->vOut, c->vIn, c->fMakeup * c->fWetGain, c->fDryGain, to_process);
+                            dsp::mix2(c->vOut, c->vIn, c->fWetGain, c->fDryGain, to_process);
 
                         c->sGraph[G_OUT].process(c->vOut, to_process);                      // Output signal
                         c->pMeter[M_OUT]->set_value(dsp::abs_max(c->vOut, to_process));
@@ -756,9 +755,52 @@ namespace lsp
                         if ((mesh != NULL) && (mesh->isEmpty()))
                         {
                             // Fill mesh with new values
-                            dsp::copy(mesh->pvData[0], vTime, meta::expander_metadata::TIME_MESH_SIZE);
-                            dsp::copy(mesh->pvData[1], c->sGraph[j].data(), meta::expander_metadata::TIME_MESH_SIZE);
-                            mesh->data(2, meta::expander_metadata::TIME_MESH_SIZE);
+                            if (j == G_IN)
+                            {
+                                float *x = mesh->pvData[0];
+                                float *y = mesh->pvData[1];
+
+                                dsp::copy(&x[1], vTime, meta::expander_metadata::TIME_MESH_SIZE);
+                                dsp::copy(&y[1], c->sGraph[j].data(), meta::expander_metadata::TIME_MESH_SIZE);
+
+                                x[0] = x[1];
+                                y[0] = 0.0f;
+
+                                x += meta::expander_metadata::TIME_MESH_SIZE + 1;
+                                y += meta::expander_metadata::TIME_MESH_SIZE + 1;
+                                x[0] = x[-1];
+                                y[0] = 0.0f;
+
+                                mesh->data(2, meta::expander_metadata::TIME_MESH_SIZE + 2);
+                            }
+                            else if (j == G_GAIN)
+                            {
+                                float *x = mesh->pvData[0];
+                                float *y = mesh->pvData[1];
+
+                                dsp::copy(&x[2], vTime, meta::expander_metadata::TIME_MESH_SIZE);
+                                dsp::copy(&y[2], c->sGraph[j].data(), meta::expander_metadata::TIME_MESH_SIZE);
+
+                                x[0] = x[2] + 0.5f;
+                                x[1] = x[0];
+                                y[0] = 1.0f;
+                                y[1] = y[2];
+
+                                x += meta::expander_metadata::TIME_MESH_SIZE + 2;
+                                y += meta::expander_metadata::TIME_MESH_SIZE + 2;
+                                x[0] = x[-1] - 0.5f;
+                                y[0] = y[-1];
+                                x[1] = x[0];
+                                y[1] = 1.0f;
+
+                                mesh->data(2, meta::expander_metadata::TIME_MESH_SIZE + 4);
+                            }
+                            else
+                            {
+                                dsp::copy(mesh->pvData[0], vTime, meta::expander_metadata::TIME_MESH_SIZE);
+                                dsp::copy(mesh->pvData[1], c->sGraph[j].data(), meta::expander_metadata::TIME_MESH_SIZE);
+                                mesh->data(2, meta::expander_metadata::TIME_MESH_SIZE);
+                            }
                         }
                     } // for j
                 }
@@ -1005,12 +1047,14 @@ namespace lsp
                     v->write("pReleaseLvl", c->pReleaseLvl);
                     v->write("pAttackTime", c->pAttackTime);
                     v->write("pReleaseTime", c->pReleaseTime);
+                    v->write("pHoldTime", c->pHoldTime);
                     v->write("pRatio", c->pRatio);
                     v->write("pKnee", c->pKnee);
                     v->write("pMakeup", c->pMakeup);
 
                     v->write("pDryGain", c->pDryGain);
                     v->write("pWetGain", c->pWetGain);
+                    v->write("pDryWet", c->pDryWet);
                     v->write("pCurve", c->pCurve);
                     v->write("pReleaseOut", c->pReleaseOut);
                 }
