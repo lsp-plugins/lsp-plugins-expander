@@ -81,6 +81,7 @@
 					<button id="pause" height="22" width="48" text="labels.pause" pad.v="4" ui:inject="Button_green"/>
 					<button id="clear" height="22" width="48" text="labels.clear" pad.v="4" ui:inject="Button_red"/>
 					<void hexpand="true"/>
+					<shmlink id="link" />
 					<vsep pad.h="2" bg.color="bg" reduce="true"/>
 					<button id="ssplit" text="labels.stereo_split" size="22" pad.v="4" ui:inject="Button_blue"/>
 				</hbox>
@@ -271,7 +272,7 @@
 					<cell rows="3">
 						<vbox fill="false" spacing="1" pad.t="4" pad.h="6">
 							<ui:with pad.b="4" hfill="true">
-								<combo id="sci" visibility="ex :sci"/>
+								<combo id="sci" />
 								<combo id="scm"/>
 								<combo id="scs" visibility="!:ssplit"/>
 								<combo id="sscs" visibility=":ssplit"/>

@@ -76,6 +76,7 @@
 					<button id="pause" height="22" width="48" text="labels.pause" pad.v="4" ui:inject="Button_green"/>
 					<button id="clear" height="22" width="48" text="labels.clear" pad.v="4" ui:inject="Button_red"/>
 					<void hexpand="true"/>
+					<shmlink id="link" />
 				</hbox>
 			</vbox>
 
@@ -244,7 +245,7 @@
 					<cell rows="2"><knob id="sla" scolor="kscale"/></cell>
 					<cell rows="3">
 						<vbox>
-							<combo id="sci" visibility="ex :sci" hfill="true" pad.h="6"/>
+							<combo id="sci" hfill="true" pad.h="6"/>
 							<combo id="scm" hfill="true" pad.h="6"/>
 							<hsep fill="true" pad.v="2" reduce="true" bg.color="bg"/>
 							<button id="scl" height="22" pad.h="6" hfill="true" text="labels.listen" ui:inject="Button_cyan"/>
