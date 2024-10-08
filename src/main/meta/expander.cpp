@@ -25,7 +25,7 @@
 
 #define LSP_PLUGINS_EXPANDER_VERSION_MAJOR       1
 #define LSP_PLUGINS_EXPANDER_VERSION_MINOR       0
-#define LSP_PLUGINS_EXPANDER_VERSION_MICRO       24
+#define LSP_PLUGINS_EXPANDER_VERSION_MICRO       25
 
 #define LSP_PLUGINS_EXPANDER_VERSION  \
     LSP_MODULE_VERSION( \
@@ -78,7 +78,15 @@ namespace lsp
         static const port_item_t exp_sc_type[] =
         {
             { "Internal",   "sidechain.internal"        },
+            { "Link",       "sidechain.link"            },
+            { NULL, NULL }
+        };
+
+        static const port_item_t exp_extsc_type[] =
+        {
+            { "Internal",   "sidechain.internal"        },
             { "External",   "sidechain.external"        },
+            { "Link",       "sidechain.link"            },
             { NULL, NULL }
         };
 
@@ -113,7 +121,14 @@ namespace lsp
             SWITCH("ssplit", "Stereo split", 0.0f), \
             COMBO("sscs", "Split sidechain source", expander_metadata::SC_SPLIT_SOURCE_DFL, exp_sc_split_sources)
 
-        #define EXP_MONO_CHANNEL \
+        #define EXP_SHM_LINK_MONO \
+            OPT_RETURN_MONO("link", "shml", "Side-chain shared memory link")
+
+        #define EXP_SHM_LINK_STEREO \
+            OPT_RETURN_STEREO("link", "shml_", "Side-chain shared memory link")
+
+        #define EXP_MONO_CHANNEL(sc_type) \
+            COMBO("sci", "Sidechain input", expander_metadata::SC_TYPE_DFL, sc_type), \
             COMBO("scm", "Sidechain mode", expander_metadata::SC_MODE_DFL, exp_sc_modes), \
             CONTROL("sla", "Sidechain lookahead", U_MSEC, expander_metadata::LOOKAHEAD), \
             SWITCH("scl", "Sidechain listen", 0.0f), \
@@ -124,11 +139,8 @@ namespace lsp
             COMBO("slpm", "Low-pass filter mode", 0, exp_filter_slope),      \
             LOG_CONTROL("slpf", "Low-pass filter frequency", U_HZ, expander_metadata::LPF)
 
-        #define EXP_SC_MONO_CHANNEL \
-            COMBO("sci", "Sidechain input", expander_metadata::SC_TYPE_DFL, exp_sc_type), \
-            EXP_MONO_CHANNEL
-
-        #define EXP_STEREO_CHANNEL(id, label) \
+        #define EXP_STEREO_CHANNEL(id, label, sc_type) \
+            COMBO("sci" id, "Sidechain input" label, expander_metadata::SC_TYPE_DFL, sc_type), \
             COMBO("scm" id, "Sidechain mode" label, expander_metadata::SC_MODE_DFL, exp_sc_modes), \
             CONTROL("sla" id, "Sidechain lookahead" label, U_MSEC, expander_metadata::LOOKAHEAD), \
             SWITCH("scl" id, "Sidechain listen" label, 0.0f), \
@@ -139,10 +151,6 @@ namespace lsp
             LOG_CONTROL("shpf" id, "High-pass filter frequency" label, U_HZ, expander_metadata::HPF),   \
             COMBO("slpm" id, "Low-pass filter mode" label, 0, exp_filter_slope),      \
             LOG_CONTROL("slpf" id, "Low-pass filter frequency" label, U_HZ, expander_metadata::LPF)
-
-        #define EXP_SC_STEREO_CHANNEL(id, label) \
-            COMBO("sci" id, "Sidechain input" label, expander_metadata::SC_TYPE_DFL, exp_sc_type), \
-            EXP_STEREO_CHANNEL(id, label)
 
         #define EXP_CHANNEL(id, label) \
             COMBO("em" id, "Expander mode" label, expander_metadata::EM_DEFAULT, exp_modes), \
@@ -181,8 +189,9 @@ namespace lsp
         static const port_t expander_mono_ports[] =
         {
             PORTS_MONO_PLUGIN,
+            EXP_SHM_LINK_MONO,
             EXP_COMMON,
-            EXP_MONO_CHANNEL,
+            EXP_MONO_CHANNEL(exp_sc_type),
             EXP_CHANNEL("", ""),
             EXP_AUDIO_METER("", ""),
 
@@ -192,9 +201,10 @@ namespace lsp
         static const port_t expander_stereo_ports[] =
         {
             PORTS_STEREO_PLUGIN,
+            EXP_SHM_LINK_STEREO,
             EXP_COMMON,
             EXP_SPLIT_COMMON,
-            EXP_STEREO_CHANNEL("", ""),
+            EXP_STEREO_CHANNEL("", "", exp_sc_type),
             EXP_CHANNEL("", ""),
             EXP_AUDIO_METER("_l", " Left"),
             EXP_AUDIO_METER("_r", " Right"),
@@ -205,9 +215,10 @@ namespace lsp
         static const port_t expander_lr_ports[] =
         {
             PORTS_STEREO_PLUGIN,
+            EXP_SHM_LINK_STEREO,
             EXP_COMMON,
-            EXP_STEREO_CHANNEL("_l", " Left"),
-            EXP_STEREO_CHANNEL("_r", " Right"),
+            EXP_STEREO_CHANNEL("_l", " Left", exp_sc_type),
+            EXP_STEREO_CHANNEL("_r", " Right", exp_sc_type),
             EXP_CHANNEL("_l", " Left"),
             EXP_CHANNEL("_r", " Right"),
             EXP_AUDIO_METER("_l", " Left"),
@@ -219,9 +230,10 @@ namespace lsp
         static const port_t expander_ms_ports[] =
         {
             PORTS_STEREO_PLUGIN,
+            EXP_SHM_LINK_STEREO,
             EXP_MS_COMMON,
-            EXP_STEREO_CHANNEL("_m", " Mid"),
-            EXP_STEREO_CHANNEL("_s", " Side"),
+            EXP_STEREO_CHANNEL("_m", " Mid", exp_sc_type),
+            EXP_STEREO_CHANNEL("_s", " Side", exp_sc_type),
             EXP_CHANNEL("_m", " Mid"),
             EXP_CHANNEL("_s", " Side"),
             EXP_AUDIO_METER("_m", " Mid"),
@@ -234,8 +246,9 @@ namespace lsp
         {
             PORTS_MONO_PLUGIN,
             PORTS_MONO_SIDECHAIN,
+            EXP_SHM_LINK_MONO,
             EXP_COMMON,
-            EXP_SC_MONO_CHANNEL,
+            EXP_MONO_CHANNEL(exp_extsc_type),
             EXP_CHANNEL("", ""),
             EXP_AUDIO_METER("", ""),
 
@@ -246,9 +259,10 @@ namespace lsp
         {
             PORTS_STEREO_PLUGIN,
             PORTS_STEREO_SIDECHAIN,
+            EXP_SHM_LINK_STEREO,
             EXP_COMMON,
             EXP_SPLIT_COMMON,
-            EXP_SC_STEREO_CHANNEL("", ""),
+            EXP_STEREO_CHANNEL("", "", exp_extsc_type),
             EXP_CHANNEL("", ""),
             EXP_AUDIO_METER("_l", " Left"),
             EXP_AUDIO_METER("_r", " Right"),
@@ -260,9 +274,10 @@ namespace lsp
         {
             PORTS_STEREO_PLUGIN,
             PORTS_STEREO_SIDECHAIN,
+            EXP_SHM_LINK_STEREO,
             EXP_COMMON,
-            EXP_SC_STEREO_CHANNEL("_l", " Left"),
-            EXP_SC_STEREO_CHANNEL("_r", " Right"),
+            EXP_STEREO_CHANNEL("_l", " Left", exp_extsc_type),
+            EXP_STEREO_CHANNEL("_r", " Right", exp_extsc_type),
             EXP_CHANNEL("_l", " Left"),
             EXP_CHANNEL("_r", " Right"),
             EXP_AUDIO_METER("_l", " Left"),
@@ -275,9 +290,10 @@ namespace lsp
         {
             PORTS_STEREO_PLUGIN,
             PORTS_STEREO_SIDECHAIN,
+            EXP_SHM_LINK_STEREO,
             EXP_MS_COMMON,
-            EXP_SC_STEREO_CHANNEL("_m", " Mid"),
-            EXP_SC_STEREO_CHANNEL("_s", " Side"),
+            EXP_STEREO_CHANNEL("_m", " Mid", exp_extsc_type),
+            EXP_STEREO_CHANNEL("_s", " Side", exp_extsc_type),
             EXP_CHANNEL("_m", " Mid"),
             EXP_CHANNEL("_s", " Side"),
             EXP_AUDIO_METER("_m", " Mid"),
