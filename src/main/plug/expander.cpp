@@ -37,48 +37,51 @@ namespace lsp
     {
         //-------------------------------------------------------------------------
         // Plugin factory
-        typedef struct plugin_settings_t
+        inline namespace
         {
-            const meta::plugin_t   *metadata;
-            bool                    sc;
-            uint8_t                 mode;
-        } plugin_settings_t;
+            typedef struct plugin_settings_t
+            {
+                const meta::plugin_t   *metadata;
+                bool                    sc;
+                uint8_t                 mode;
+            } plugin_settings_t;
 
-        static const meta::plugin_t *plugins[] =
-        {
-            &meta::expander_mono,
-            &meta::expander_stereo,
-            &meta::expander_lr,
-            &meta::expander_ms,
-            &meta::sc_expander_mono,
-            &meta::sc_expander_stereo,
-            &meta::sc_expander_lr,
-            &meta::sc_expander_ms
-        };
+            static const meta::plugin_t *plugins[] =
+            {
+                &meta::expander_mono,
+                &meta::expander_stereo,
+                &meta::expander_lr,
+                &meta::expander_ms,
+                &meta::sc_expander_mono,
+                &meta::sc_expander_stereo,
+                &meta::sc_expander_lr,
+                &meta::sc_expander_ms
+            };
 
-        static const plugin_settings_t plugin_settings[] =
-        {
-            { &meta::expander_mono,       false, expander::EM_MONO          },
-            { &meta::expander_stereo,     false, expander::EM_STEREO        },
-            { &meta::expander_lr,         false, expander::EM_LR            },
-            { &meta::expander_ms,         false, expander::EM_MS            },
-            { &meta::sc_expander_mono,    true,  expander::EM_MONO          },
-            { &meta::sc_expander_stereo,  true,  expander::EM_STEREO        },
-            { &meta::sc_expander_lr,      true,  expander::EM_LR            },
-            { &meta::sc_expander_ms,      true,  expander::EM_MS            },
+            static const plugin_settings_t plugin_settings[] =
+            {
+                { &meta::expander_mono,       false, expander::EM_MONO          },
+                { &meta::expander_stereo,     false, expander::EM_STEREO        },
+                { &meta::expander_lr,         false, expander::EM_LR            },
+                { &meta::expander_ms,         false, expander::EM_MS            },
+                { &meta::sc_expander_mono,    true,  expander::EM_MONO          },
+                { &meta::sc_expander_stereo,  true,  expander::EM_STEREO        },
+                { &meta::sc_expander_lr,      true,  expander::EM_LR            },
+                { &meta::sc_expander_ms,      true,  expander::EM_MS            },
 
-            { NULL, 0, false }
-        };
+                { NULL, 0, false }
+            };
 
-        static plug::Module *plugin_factory(const meta::plugin_t *meta)
-        {
-            for (const plugin_settings_t *s = plugin_settings; s->metadata != NULL; ++s)
-                if (s->metadata == meta)
-                    return new expander(s->metadata, s->sc, s->mode);
-            return NULL;
-        }
+            static plug::Module *plugin_factory(const meta::plugin_t *meta)
+            {
+                for (const plugin_settings_t *s = plugin_settings; s->metadata != NULL; ++s)
+                    if (s->metadata == meta)
+                        return new expander(s->metadata, s->sc, s->mode);
+                return NULL;
+            }
 
-        static plug::Factory factory(plugin_factory, plugins, 8);
+            static plug::Factory factory(plugin_factory, plugins, 8);
+        } /* inline namespace */
 
         //-------------------------------------------------------------------------
         expander::expander(const meta::plugin_t *metadata, bool sc, size_t mode): plug::Module(metadata)
