@@ -618,7 +618,7 @@ namespace lsp
                 c->sExp.set_mode((upward) ? dspu::EM_UPWARD : dspu::EM_DOWNWARD);
                 if (c->pReleaseOut != NULL)
                     c->pReleaseOut->set_value(release);
-                c->sGraph[G_GAIN].set_method((upward) ? dspu::MM_MAXIMUM : dspu::MM_MINIMUM);
+                c->sGraph[G_GAIN].set_method((upward) ? dspu::MM_ABS_MAXIMUM : dspu::MM_ABS_MINIMUM);
 
                 // Check modification flag
                 if (c->sExp.modified())
