@@ -590,9 +590,9 @@
 
 	<!-- Sidechain overlay -->
 	<overlay id="showsc" trigger="sidechain_trigger" hpos="1" vpos="1" halign="-1" valign="1">
-		<!-- For Stereo and Mono version-->
-		<ui:if test=":mono or :stereo">
-			<group text="groups.sidechain" vexpand="false" ipadding="0">
+		<group text="groups.sidechain" vexpand="false" ipadding="0">
+			<!-- For Stereo and Mono version-->
+			<ui:if test=":mono or :stereo">
 				<grid rows="5" cols="9" spacing="0" bg.color="bg_schema" height="139">
 					<!-- row 1 -->
 					<ui:with pad.h="6" pad.v="4" fill="false" hexpand="true" width.min="56">
@@ -650,13 +650,10 @@
 					<value id="shpf" sline="true" bright="(:shpm igt 0) ? 1 : 0.75" bg.bright="(:shpm igt 0) ? 1 : :const_bg_darken"/>
 					<value id="slpf" sline="true" bright="(:slpm igt 0) ? 1 : 0.75" bg.bright="(:slpm igt 0) ? 1 : :const_bg_darken"/>
 				</grid>
-			</group>
-		</ui:if>
+			</ui:if>
 
-		<!-- For Left Right and Mid Side version -->
-		<ui:if test=":left_right or :mid_side">
-			<group text="groups.sidechain" vexpand="false" ipadding="0">
-
+			<!-- For Left Right and Mid Side version -->
+			<ui:if test=":left_right or :mid_side">
 				<grid rows="9" cols="9" spacing="0" bg.color="bg_schema">
 					<!-- row 1 -->
 					<ui:with pad.h="6" pad.v="4" fill="false" hexpand="true" width.min="56">
@@ -745,8 +742,8 @@
 						<value id="slpf_${xb}" bright="(:slpm_${xb} igt 0) ? 1 : 0.75" bg.bright="(:slpm_${xb} igt 0) ? 1 : :const_bg_darken"/>
 					</ui:with>
 				</grid>
-			</group>
-		</ui:if>
+			</ui:if>
+		</group>
 	</overlay>
 
 	<!-- Mix overlay -->
