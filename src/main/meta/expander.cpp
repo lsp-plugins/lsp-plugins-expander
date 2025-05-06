@@ -110,18 +110,18 @@ namespace lsp
             BYPASS,             \
             IN_GAIN,            \
             OUT_GAIN,           \
-            SWITCH("showmx", "Show mix overlay", 0.0f), \
-            SWITCH("showsc", "Show sidechain overlay", 0.0f), \
-            SWITCH("pause", "Pause graph analysis", 0.0f), \
-            TRIGGER("clear", "Clear graph analysis")
+            SWITCH("showmx", "Show mix overlay", "Show mix bar", 0.0f), \
+            SWITCH("showsc", "Show sidechain overlay", "Show SC bar", 0.0f), \
+            SWITCH("pause", "Pause graph analysis", "Pause", 0.0f), \
+            TRIGGER("clear", "Clear graph analysis", "Clear")
 
         #define EXP_MS_COMMON  \
             EXP_COMMON,        \
-            SWITCH("msl", "Mid/Side listen", 0.0f)
+            SWITCH("msl", "Mid/Side listen", "M/S listen", 0.0f)
 
         #define EXP_SPLIT_COMMON \
-            SWITCH("ssplit", "Stereo split", 0.0f), \
-            COMBO("sscs", "Split sidechain source", expander_metadata::SC_SPLIT_SOURCE_DFL, exp_sc_split_sources)
+            SWITCH("ssplit", "Stereo split", "Stereo split", 0.0f), \
+            COMBO("sscs", "Split sidechain source", "Split SC source", expander_metadata::SC_SPLIT_SOURCE_DFL, exp_sc_split_sources)
 
         #define EXP_SHM_LINK_MONO \
             OPT_RETURN_MONO("link", "shml", "Side-chain shared memory link")
@@ -130,32 +130,32 @@ namespace lsp
             OPT_RETURN_STEREO("link", "shml_", "Side-chain shared memory link")
 
         #define EXP_MONO_CHANNEL(sc_type) \
-            COMBO("sci", "Sidechain input", expander_metadata::SC_TYPE_DFL, sc_type), \
-            COMBO("scm", "Sidechain mode", expander_metadata::SC_MODE_DFL, exp_sc_modes), \
+            COMBO("sci", "Sidechain input", "SC input", expander_metadata::SC_TYPE_DFL, sc_type), \
+            COMBO("scm", "Sidechain mode", "SC mode", expander_metadata::SC_MODE_DFL, exp_sc_modes), \
             CONTROL("sla", "Sidechain lookahead", U_MSEC, expander_metadata::LOOKAHEAD), \
-            SWITCH("scl", "Sidechain listen", 0.0f), \
+            SWITCH("scl", "Sidechain listen", "SC listen", 0.0f), \
             LOG_CONTROL("scr", "Sidechain reactivity", "SC react", U_MSEC, expander_metadata::REACTIVITY), \
             AMP_GAIN100("scp", "Sidechain preamp", GAIN_AMP_0_DB), \
-            COMBO("shpm", "High-pass filter mode", 0, exp_filter_slope),      \
+            COMBO("shpm", "High-pass filter mode", "HPF mode", 0, exp_filter_slope),      \
             LOG_CONTROL("shpf", "High-pass filter frequency", "HPF freq", U_HZ, expander_metadata::HPF),   \
-            COMBO("slpm", "Low-pass filter mode", 0, exp_filter_slope),      \
+            COMBO("slpm", "Low-pass filter mode", "LPF mode", 0, exp_filter_slope),      \
             LOG_CONTROL("slpf", "Low-pass filter frequency", "LPF freq", U_HZ, expander_metadata::LPF)
 
         #define EXP_STEREO_CHANNEL(id, label, alias, sc_type) \
-            COMBO("sci" id, "Sidechain input" label, expander_metadata::SC_TYPE_DFL, sc_type), \
-            COMBO("scm" id, "Sidechain mode" label, expander_metadata::SC_MODE_DFL, exp_sc_modes), \
+            COMBO("sci" id, "Sidechain input" label, "SC input" alias, expander_metadata::SC_TYPE_DFL, sc_type), \
+            COMBO("scm" id, "Sidechain mode" label, "SC mode" alias, expander_metadata::SC_MODE_DFL, exp_sc_modes), \
             CONTROL("sla" id, "Sidechain lookahead" label, U_MSEC, expander_metadata::LOOKAHEAD), \
-            SWITCH("scl" id, "Sidechain listen" label, 0.0f), \
-            COMBO("scs" id, "Sidechain source" label, expander_metadata::SC_SOURCE_DFL, exp_sc_sources), \
+            SWITCH("scl" id, "Sidechain listen" label, "SC listen" alias, 0.0f), \
+            COMBO("scs" id, "Sidechain source" label, "SC source" alias, expander_metadata::SC_SOURCE_DFL, exp_sc_sources), \
             LOG_CONTROL("scr" id, "Sidechain reactivity" label, "SC react" alias, U_MSEC, expander_metadata::REACTIVITY), \
             AMP_GAIN100("scp" id, "Sidechain preamp" label, GAIN_AMP_0_DB), \
-            COMBO("shpm" id, "High-pass filter mode" label, 0, exp_filter_slope),      \
+            COMBO("shpm" id, "High-pass filter mode" label, "HPF mode" alias, 0, exp_filter_slope),      \
             LOG_CONTROL("shpf" id, "High-pass filter frequency" label, "HPF freq" alias, U_HZ, expander_metadata::HPF),   \
-            COMBO("slpm" id, "Low-pass filter mode" label, 0, exp_filter_slope),      \
+            COMBO("slpm" id, "Low-pass filter mode" label, "LPF mode" alias, 0, exp_filter_slope),      \
             LOG_CONTROL("slpf" id, "Low-pass filter frequency" label, "LPF freq" alias, U_HZ, expander_metadata::LPF)
 
         #define EXP_CHANNEL(id, label, alias) \
-            COMBO("em" id, "Expander mode" label, expander_metadata::EM_DEFAULT, exp_modes), \
+            COMBO("em" id, "Expander mode" label, "Mode" alias, expander_metadata::EM_DEFAULT, exp_modes), \
             LOG_CONTROL("al" id, "Attack threshold" label, "Att lvl" alias, U_GAIN_AMP, expander_metadata::ATTACK_LVL), \
             LOG_CONTROL("at" id, "Attack time" label, "Att time" alias, U_MSEC, expander_metadata::ATTACK_TIME), \
             LOG_CONTROL("rrl" id, "Release threshold" label, "Rel lvl" alias, U_GAIN_AMP, expander_metadata::RELEASE_LVL), \
@@ -170,12 +170,12 @@ namespace lsp
             METER_OUT_GAIN("rl" id, "Release level" label, 20.0f), \
             MESH("ecg" id, "Expander curve graph" label, 2, expander_metadata::CURVE_MESH_SIZE)
 
-        #define EXP_AUDIO_METER(id, label) \
-            SWITCH("slv" id, "Sidechain level visibility" label, 1.0f), \
-            SWITCH("elv" id, "Envelope level visibility" label, 1.0f), \
-            SWITCH("grv" id, "Gain reduction visibility" label, 1.0f), \
-            SWITCH("ilv" id, "Input level visibility" label, 1.0f), \
-            SWITCH("olv" id, "Output level visibility" label, 1.0f), \
+        #define EXP_AUDIO_METER(id, label, alias) \
+            SWITCH("slv" id, "Sidechain level visibility" label, "Show SC" alias, 1.0f), \
+            SWITCH("elv" id, "Envelope level visibility" label, "Show Env" alias, 1.0f), \
+            SWITCH("grv" id, "Gain reduction visibility" label, "Show Gain" alias, 1.0f), \
+            SWITCH("ilv" id, "Input level visibility" label, "Show In" alias, 1.0f), \
+            SWITCH("olv" id, "Output level visibility" label, "Show Out" alias, 1.0f), \
             MESH("scg" id, "Expander sidechain graph" label, 2, expander_metadata::TIME_MESH_SIZE), \
             MESH("evg" id, "Expander envelope graph" label, 2, expander_metadata::TIME_MESH_SIZE), \
             MESH("grg" id, "Expander gain reduciton" label, 2, expander_metadata::TIME_MESH_SIZE + 4), \
@@ -195,7 +195,7 @@ namespace lsp
             EXP_COMMON,
             EXP_MONO_CHANNEL(exp_sc_type),
             EXP_CHANNEL("", "", ""),
-            EXP_AUDIO_METER("", ""),
+            EXP_AUDIO_METER("", "", ""),
 
             PORTS_END
         };
@@ -208,8 +208,8 @@ namespace lsp
             EXP_SPLIT_COMMON,
             EXP_STEREO_CHANNEL("", "", "", exp_sc_type),
             EXP_CHANNEL("", "", ""),
-            EXP_AUDIO_METER("_l", " Left"),
-            EXP_AUDIO_METER("_r", " Right"),
+            EXP_AUDIO_METER("_l", " Left", " L"),
+            EXP_AUDIO_METER("_r", " Right", " R"),
 
             PORTS_END
         };
@@ -223,8 +223,8 @@ namespace lsp
             EXP_STEREO_CHANNEL("_r", " Right", " R", exp_sc_type),
             EXP_CHANNEL("_l", " Left", " L"),
             EXP_CHANNEL("_r", " Right", " R"),
-            EXP_AUDIO_METER("_l", " Left"),
-            EXP_AUDIO_METER("_r", " Right"),
+            EXP_AUDIO_METER("_l", " Left", " L"),
+            EXP_AUDIO_METER("_r", " Right", " R"),
 
             PORTS_END
         };
@@ -238,8 +238,8 @@ namespace lsp
             EXP_STEREO_CHANNEL("_s", " Side", " S", exp_sc_type),
             EXP_CHANNEL("_m", " Mid", " M"),
             EXP_CHANNEL("_s", " Side", " S"),
-            EXP_AUDIO_METER("_m", " Mid"),
-            EXP_AUDIO_METER("_s", " Side"),
+            EXP_AUDIO_METER("_m", " Mid", " M"),
+            EXP_AUDIO_METER("_s", " Side", " S"),
 
             PORTS_END
         };
@@ -252,7 +252,7 @@ namespace lsp
             EXP_COMMON,
             EXP_MONO_CHANNEL(exp_extsc_type),
             EXP_CHANNEL("", "", ""),
-            EXP_AUDIO_METER("", ""),
+            EXP_AUDIO_METER("", "", ""),
 
             PORTS_END
         };
@@ -266,8 +266,8 @@ namespace lsp
             EXP_SPLIT_COMMON,
             EXP_STEREO_CHANNEL("", "", "", exp_extsc_type),
             EXP_CHANNEL("", "", ""),
-            EXP_AUDIO_METER("_l", " Left"),
-            EXP_AUDIO_METER("_r", " Right"),
+            EXP_AUDIO_METER("_l", " Left", " L"),
+            EXP_AUDIO_METER("_r", " Right", " R"),
 
             PORTS_END
         };
@@ -282,8 +282,8 @@ namespace lsp
             EXP_STEREO_CHANNEL("_r", " Right", " R", exp_extsc_type),
             EXP_CHANNEL("_l", " Left", " L"),
             EXP_CHANNEL("_r", " Right", " R"),
-            EXP_AUDIO_METER("_l", " Left"),
-            EXP_AUDIO_METER("_r", " Right"),
+            EXP_AUDIO_METER("_l", " Left", " L"),
+            EXP_AUDIO_METER("_r", " Right", " R"),
 
             PORTS_END
         };
@@ -298,8 +298,8 @@ namespace lsp
             EXP_STEREO_CHANNEL("_s", " Side", " S", exp_extsc_type),
             EXP_CHANNEL("_m", " Mid", " M"),
             EXP_CHANNEL("_s", " Side", " S"),
-            EXP_AUDIO_METER("_m", " Mid"),
-            EXP_AUDIO_METER("_s", " Side"),
+            EXP_AUDIO_METER("_m", " Mid", " M"),
+            EXP_AUDIO_METER("_s", " Side", " S"),
 
             PORTS_END
         };
