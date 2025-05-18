@@ -45,8 +45,29 @@ keeping the same settings for the left and right channels.</p>
 	<li><b>In<?= $sm ?></b> - enables drawing of expander's input signal graph and corresponding level meter.</li>
 	<li><b>Out<?= $sm ?></b> - enables drawing of expander's output signal graph and corresponding level meter.</li>
 	<li><b>Link</b> - the name of the shared memory link to pass sidechain signal.</li>
+	<li><b>Sidechain</b> - shows the sidechain control overlay.</li>
+	<li><b>Mix</b> - shows the Dry/Wet control overlay.</li>
 </ul>
-<p><b>'Sidechain' section:</b></p>
+
+<p><b>'Expander' section:</b></p>
+<ul>
+	<li><b>Mode</b> - expander mode: <b>Up</b> (upward) or <b>Down</b> (downward).</li>
+	<li><b>Ratio</b> - expander ratio.</li>
+	<li><b>Knee</b> - size of the knee.</li>
+	<li><b>Makeup</b> - additional amplification gain after processing stage.</li>
+	<li><b>Attack Level</b> - threshold of the expander, placed in the middle of the knee.</li>
+	<li><b>Attack Time</b> - attack time of the expander.</li>
+	<li><b>Release Level</b> - relative to the <b>Attack Level</b> threshold that sets up the threshold of <b>Release Time</b>.</li>
+	<li><b>Release Time</b> - release time of the expander.</li>
+	<li><b>Hold</b> - the time period the envelope holds it's maximum value before starting the release.</li>
+</ul>
+<p><b>'Signal' section:</b></p>
+<ul>
+	<li><b>Input</b> - overall input gain.</li>
+	<li><b>Output</b> - overall output gain.</li>
+</ul>
+
+<p><b>Sidechain control overlay:</b></p>
 <ul>
 	<li><b>Preamp</b> - pre-amplification of the sidechain signal.</li>
 	<li><b>Reactivity</b> - reactivity of the sidechain signal.</li>
@@ -81,24 +102,9 @@ keeping the same settings for the left and right channels.</p>
 	<li><b>LPF</b> - allows to set up slope and cut-off frequency for the low-pass filter applied to sidechain signal.</li>
 	<li><b>HPF</b> - allows to set up slope and cut-off frequency for the high-pass filter applied to sidechain signal.</li>
 </ul>
-<p><b>'Expander' section:</b></p>
+<p><b>Dry/Wet mix control overlay:</b></p>
 <ul>
-	<li><b>Mode</b> - expander mode: <b>Up</b> (upward) or <b>Down</b> (downward).</li>
-	<li><b>Ratio</b> - expander ratio.</li>
-	<li><b>Knee</b> - size of the knee.</li>
-	<li><b>Makeup</b> - additional amplification gain after processing stage.</li>
-	<li><b>Attack Level</b> - threshold of the expander, placed in the middle of the knee.</li>
-	<li><b>Attack Time</b> - attack time of the expander.</li>
-	<li><b>Release Level</b> - relative to the <b>Attack Level</b> threshold that sets up the threshold of <b>Release Time</b>.</li>
-	<li><b>Release Time</b> - release time of the expander.</li>
-	<li><b>Hold</b> - the time period the envelope holds it's maximum value before starting the release.</li>
 	<li><b>Mix Dry</b> - the amount of dry (unprocessed) signal.</li>
 	<li><b>Mix Wet</b> - the amount of wet (processed) signal.</li>
 	<li><b>Mix Dry/Wet</b> - the knob that controls this balance between mixed dry and wet signal (see <b>Mix Dry</b> and <b>Mix Wet</b>) and the dry (unprocessed) signal.</li>
-</ul>
-
-<p><b>'Signal' section:</b></p>
-<ul>
-	<li><b>Input</b> - overall input gain.</li>
-	<li><b>Output</b> - overall output gain.</li>
 </ul>
