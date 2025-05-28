@@ -106,6 +106,18 @@ namespace lsp
             { NULL, NULL }
         };
 
+        #define EXP_PREMIX \
+            SWITCH("showpmx", "Show pre-mix overlay", "Show premix bar", 0.0f), \
+            AMP_GAIN10("in2lk", "Input to Link mix", "In to Link mix", GAIN_AMP_M_INF_DB), \
+            AMP_GAIN10("lk2in", "Link to Input mix", "Link to In mix", GAIN_AMP_M_INF_DB), \
+            AMP_GAIN10("lk2sc", "Link to Sidechain mix", "Link to SC mix", GAIN_AMP_M_INF_DB)
+
+        #define EXP_SC_PREMIX \
+            EXP_PREMIX, \
+            AMP_GAIN10("in2sc", "Input to Sidechain mix", "In to SC mix", GAIN_AMP_M_INF_DB), \
+            AMP_GAIN10("sc2in", "Sidechain to Input mix", "SC to In mix", GAIN_AMP_M_INF_DB), \
+            AMP_GAIN10("sc2lk", "Sidechain to Link mix", "SC to Link mix", GAIN_AMP_M_INF_DB)
+
         #define EXP_COMMON     \
             BYPASS,             \
             IN_GAIN,            \
@@ -192,6 +204,7 @@ namespace lsp
         {
             PORTS_MONO_PLUGIN,
             EXP_SHM_LINK_MONO,
+            EXP_PREMIX,
             EXP_COMMON,
             EXP_MONO_CHANNEL(exp_sc_type, 0),
             EXP_CHANNEL("", "", ""),
@@ -204,6 +217,7 @@ namespace lsp
         {
             PORTS_STEREO_PLUGIN,
             EXP_SHM_LINK_STEREO,
+            EXP_PREMIX,
             EXP_COMMON,
             EXP_SPLIT_COMMON,
             EXP_STEREO_CHANNEL("", "", "", exp_sc_type, 0),
@@ -218,6 +232,7 @@ namespace lsp
         {
             PORTS_STEREO_PLUGIN,
             EXP_SHM_LINK_STEREO,
+            EXP_PREMIX,
             EXP_COMMON,
             EXP_STEREO_CHANNEL("_l", " Left", " L", exp_sc_type, 0),
             EXP_STEREO_CHANNEL("_r", " Right", " R", exp_sc_type, 0),
@@ -233,6 +248,7 @@ namespace lsp
         {
             PORTS_STEREO_PLUGIN,
             EXP_SHM_LINK_STEREO,
+            EXP_PREMIX,
             EXP_MS_COMMON,
             EXP_STEREO_CHANNEL("_m", " Mid", " M", exp_sc_type, 0),
             EXP_STEREO_CHANNEL("_s", " Side", " S", exp_sc_type, 0),
@@ -249,6 +265,7 @@ namespace lsp
             PORTS_MONO_PLUGIN,
             PORTS_MONO_SIDECHAIN,
             EXP_SHM_LINK_MONO,
+            EXP_SC_PREMIX,
             EXP_COMMON,
             EXP_MONO_CHANNEL(exp_extsc_type, 1),
             EXP_CHANNEL("", "", ""),
@@ -262,6 +279,7 @@ namespace lsp
             PORTS_STEREO_PLUGIN,
             PORTS_STEREO_SIDECHAIN,
             EXP_SHM_LINK_STEREO,
+            EXP_SC_PREMIX,
             EXP_COMMON,
             EXP_SPLIT_COMMON,
             EXP_STEREO_CHANNEL("", "", "", exp_extsc_type, 1),
@@ -277,6 +295,7 @@ namespace lsp
             PORTS_STEREO_PLUGIN,
             PORTS_STEREO_SIDECHAIN,
             EXP_SHM_LINK_STEREO,
+            EXP_SC_PREMIX,
             EXP_COMMON,
             EXP_STEREO_CHANNEL("_l", " Left", " L", exp_extsc_type, 1),
             EXP_STEREO_CHANNEL("_r", " Right", " R", exp_extsc_type, 1),
@@ -293,6 +312,7 @@ namespace lsp
             PORTS_STEREO_PLUGIN,
             PORTS_STEREO_SIDECHAIN,
             EXP_SHM_LINK_STEREO,
+            EXP_SC_PREMIX,
             EXP_MS_COMMON,
             EXP_STEREO_CHANNEL("_m", " Mid", " M", exp_extsc_type, 1),
             EXP_STEREO_CHANNEL("_s", " Side", " S", exp_extsc_type, 1),
