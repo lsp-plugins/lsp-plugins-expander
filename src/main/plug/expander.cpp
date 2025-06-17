@@ -311,6 +311,8 @@ namespace lsp
                 BIND_PORT(pStereoSplit);
                 BIND_PORT(pScSpSource);
             }
+            if ((nMode == EM_LR) || (nMode == EM_MS))
+                SKIP_PORT("Separate channels link");
 
             // Sidechain ports
             lsp_trace("Binding sidechain ports");

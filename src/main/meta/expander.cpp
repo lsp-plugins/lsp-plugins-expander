@@ -135,6 +135,9 @@ namespace lsp
             SWITCH("ssplit", "Stereo split", "Stereo split", 0.0f), \
             COMBO("sscs", "Split sidechain source", "Split SC source", expander_metadata::SC_SPLIT_SOURCE_DFL, exp_sc_split_sources)
 
+        #define EXP_LINK(id, label, alias) \
+            SWITCH(id, label, alias, 0.0f)
+
         #define EXP_SHM_LINK_MONO \
             OPT_RETURN_MONO("link", "shml", "Side-chain shared memory link")
 
@@ -234,6 +237,7 @@ namespace lsp
             EXP_SHM_LINK_STEREO,
             EXP_PREMIX,
             EXP_COMMON,
+            EXP_LINK("clink", "Left/Right controls link", "L/R link"),
             EXP_STEREO_CHANNEL("_l", " Left", " L", exp_sc_type, 0),
             EXP_STEREO_CHANNEL("_r", " Right", " R", exp_sc_type, 0),
             EXP_CHANNEL("_l", " Left", " L"),
@@ -250,6 +254,7 @@ namespace lsp
             EXP_SHM_LINK_STEREO,
             EXP_PREMIX,
             EXP_MS_COMMON,
+            EXP_LINK("clink", "Mid/Side controls link", "M/S link"),
             EXP_STEREO_CHANNEL("_m", " Mid", " M", exp_sc_type, 0),
             EXP_STEREO_CHANNEL("_s", " Side", " S", exp_sc_type, 0),
             EXP_CHANNEL("_m", " Mid", " M"),
@@ -297,6 +302,7 @@ namespace lsp
             EXP_SHM_LINK_STEREO,
             EXP_SC_PREMIX,
             EXP_COMMON,
+            EXP_LINK("clink", "Left/Right controls link", "L/R link"),
             EXP_STEREO_CHANNEL("_l", " Left", " L", exp_extsc_type, 1),
             EXP_STEREO_CHANNEL("_r", " Right", " R", exp_extsc_type, 1),
             EXP_CHANNEL("_l", " Left", " L"),
@@ -314,6 +320,7 @@ namespace lsp
             EXP_SHM_LINK_STEREO,
             EXP_SC_PREMIX,
             EXP_MS_COMMON,
+            EXP_LINK("clink", "Mid/Side controls link", "M/S link"),
             EXP_STEREO_CHANNEL("_m", " Mid", " M", exp_extsc_type, 1),
             EXP_STEREO_CHANNEL("_s", " Side", " S", exp_extsc_type, 1),
             EXP_CHANNEL("_m", " Mid", " M"),
