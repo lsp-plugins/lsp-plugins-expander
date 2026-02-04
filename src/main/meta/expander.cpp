@@ -1,6 +1,6 @@
 /*
- * Copyright (C) 2025 Linux Studio Plugins Project <https://lsp-plug.in/>
- *           (C) 2025 Vladimir Sadovnikov <sadko4u@gmail.com>
+ * Copyright (C) 2026 Linux Studio Plugins Project <https://lsp-plug.in/>
+ *           (C) 2026 Vladimir Sadovnikov <sadko4u@gmail.com>
  *
  * This file is part of lsp-plugins-expander
  * Created on: 3 авг. 2021 г.
@@ -20,6 +20,7 @@
  */
 
 #include <lsp-plug.in/plug-fw/meta/ports.h>
+#include <lsp-plug.in/plug-fw/meta/registry.h>
 #include <lsp-plug.in/shared/meta/developers.h>
 #include <private/meta/expander.h>
 
@@ -370,6 +371,7 @@ namespace lsp
             mono_plugin_port_groups,
             &expander_bundle
         };
+        LSP_REGISTER_METADATA(expander_mono);
 
         const meta::plugin_t  expander_stereo =
         {
@@ -400,6 +402,7 @@ namespace lsp
             stereo_plugin_port_groups,
             &expander_bundle
         };
+        LSP_REGISTER_METADATA(expander_stereo);
 
         const meta::plugin_t  expander_lr =
         {
@@ -430,6 +433,7 @@ namespace lsp
             stereo_plugin_port_groups,
             &expander_bundle
         };
+        LSP_REGISTER_METADATA(expander_lr);
 
         const meta::plugin_t  expander_ms =
         {
@@ -460,6 +464,7 @@ namespace lsp
             stereo_plugin_port_groups,
             &expander_bundle
         };
+        LSP_REGISTER_METADATA(expander_ms);
 
         // Sidechain expander
         const meta::plugin_t  sc_expander_mono =
@@ -491,6 +496,7 @@ namespace lsp
             mono_plugin_sidechain_port_groups,
             &expander_bundle
         };
+        LSP_REGISTER_METADATA(sc_expander_mono);
 
         const meta::plugin_t  sc_expander_stereo =
         {
@@ -521,6 +527,7 @@ namespace lsp
             stereo_plugin_sidechain_port_groups,
             &expander_bundle
         };
+        LSP_REGISTER_METADATA(sc_expander_stereo);
 
         const meta::plugin_t  sc_expander_lr =
         {
@@ -551,6 +558,7 @@ namespace lsp
             stereo_plugin_sidechain_port_groups,
             &expander_bundle
         };
+        LSP_REGISTER_METADATA(sc_expander_lr);
 
         const meta::plugin_t  sc_expander_ms =
         {
@@ -581,5 +589,7 @@ namespace lsp
             stereo_plugin_sidechain_port_groups,
             &expander_bundle
         };
+        LSP_REGISTER_METADATA(sc_expander_ms);
+
     } /* namespace meta */
 } /* namespace lsp */
