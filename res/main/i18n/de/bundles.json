@@ -1,7 +1,17 @@
 {
 	"expander": {
-		"name": "Expander",
-		"description": "Dieses Plugin erweitert die dynamische Bandbreite des Eingangssignals.\nZudem kann die Sidechain flexibel konfiguriert werden. Auf- \nund Abwärtsmodi sind verfügbar. Zusätzliche Dry-/Wet-Steuerung erlaubt das \nMixen von bearbeiteten und unbearbeiteten Signalen gleichzeitig."
+		"description": "Dieses Plugin erweitert die dynamische Bandbreite des Eingangssignals.\nZudem kann die Sidechain flexibel konfiguriert werden. Auf- \nund Abwärtsmodi sind verfügbar. Zusätzliche Dry-/Wet-Steuerung erlaubt das \nMixen von bearbeiteten und unbearbeiteten Signalen gleichzeitig.",
+		"name": "Expander"
+	},
+	"launcher": {
+		"expander_lr": "Split LR",
+		"expander_mono": "Mono",
+		"expander_ms": "Split MS",
+		"expander_stereo": "Stereo",
+		"sc_expander_lr": "SC Split LR",
+		"sc_expander_mono": "SC Mono",
+		"sc_expander_ms": "SC Split MS",
+		"sc_expander_stereo": "SC Stereo"
 	}
 }
 
