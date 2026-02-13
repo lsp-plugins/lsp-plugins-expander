@@ -366,7 +366,7 @@ namespace lsp
             clap_features_mono,
             E_INLINE_DISPLAY | E_DUMP_STATE,
             expander_mono_ports,
-            "dynamics/expander/single.xml",
+            "plugins/dynamics/expander/single.xml",
             NULL,
             mono_plugin_port_groups,
             &expander_bundle
@@ -397,7 +397,7 @@ namespace lsp
             clap_features_stereo,
             E_INLINE_DISPLAY | E_DUMP_STATE,
             expander_stereo_ports,
-            "dynamics/expander/single.xml",
+            "plugins/dynamics/expander/single.xml",
             NULL,
             stereo_plugin_port_groups,
             &expander_bundle
@@ -428,7 +428,7 @@ namespace lsp
             clap_features_stereo,
             E_INLINE_DISPLAY | E_DUMP_STATE,
             expander_lr_ports,
-            "dynamics/expander/single.xml",
+            "plugins/dynamics/expander/single.xml",
             NULL,
             stereo_plugin_port_groups,
             &expander_bundle
@@ -459,7 +459,7 @@ namespace lsp
             clap_features_stereo,
             E_INLINE_DISPLAY | E_DUMP_STATE,
             expander_ms_ports,
-            "dynamics/expander/single.xml",
+            "plugins/dynamics/expander/single.xml",
             NULL,
             stereo_plugin_port_groups,
             &expander_bundle
@@ -491,7 +491,7 @@ namespace lsp
             clap_features_mono,
             E_INLINE_DISPLAY | E_DUMP_STATE,
             sc_expander_mono_ports,
-            "dynamics/expander/single.xml",
+            "plugins/dynamics/expander/single.xml",
             NULL,
             mono_plugin_sidechain_port_groups,
             &expander_bundle
@@ -522,7 +522,7 @@ namespace lsp
             clap_features_stereo,
             E_INLINE_DISPLAY | E_DUMP_STATE,
             sc_expander_stereo_ports,
-            "dynamics/expander/single.xml",
+            "plugins/dynamics/expander/single.xml",
             NULL,
             stereo_plugin_sidechain_port_groups,
             &expander_bundle
@@ -553,7 +553,7 @@ namespace lsp
             clap_features_stereo,
             E_INLINE_DISPLAY | E_DUMP_STATE,
             sc_expander_lr_ports,
-            "dynamics/expander/single.xml",
+            "plugins/dynamics/expander/single.xml",
             NULL,
             stereo_plugin_sidechain_port_groups,
             &expander_bundle
@@ -584,7 +584,7 @@ namespace lsp
             clap_features_stereo,
             E_INLINE_DISPLAY | E_DUMP_STATE,
             sc_expander_ms_ports,
-            "dynamics/expander/single.xml",
+            "plugins/dynamics/expander/single.xml",
             NULL,
             stereo_plugin_sidechain_port_groups,
             &expander_bundle
