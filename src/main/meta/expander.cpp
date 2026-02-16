@@ -369,7 +369,8 @@ namespace lsp
             "plugins/dynamics/expander/single.xml",
             NULL,
             mono_plugin_port_groups,
-            &expander_bundle
+            &expander_bundle,
+            3
         };
         LSP_REGISTER_METADATA(expander_mono);
 
@@ -400,7 +401,8 @@ namespace lsp
             "plugins/dynamics/expander/single.xml",
             NULL,
             stereo_plugin_port_groups,
-            &expander_bundle
+            &expander_bundle,
+            1
         };
         LSP_REGISTER_METADATA(expander_stereo);
 
@@ -431,7 +433,8 @@ namespace lsp
             "plugins/dynamics/expander/single.xml",
             NULL,
             stereo_plugin_port_groups,
-            &expander_bundle
+            &expander_bundle,
+            5
         };
         LSP_REGISTER_METADATA(expander_lr);
 
@@ -462,7 +465,8 @@ namespace lsp
             "plugins/dynamics/expander/single.xml",
             NULL,
             stereo_plugin_port_groups,
-            &expander_bundle
+            &expander_bundle,
+            7
         };
         LSP_REGISTER_METADATA(expander_ms);
 
@@ -494,7 +498,8 @@ namespace lsp
             "plugins/dynamics/expander/single.xml",
             NULL,
             mono_plugin_sidechain_port_groups,
-            &expander_bundle
+            &expander_bundle,
+            4
         };
         LSP_REGISTER_METADATA(sc_expander_mono);
 
@@ -525,7 +530,8 @@ namespace lsp
             "plugins/dynamics/expander/single.xml",
             NULL,
             stereo_plugin_sidechain_port_groups,
-            &expander_bundle
+            &expander_bundle,
+            2
         };
         LSP_REGISTER_METADATA(sc_expander_stereo);
 
@@ -556,7 +562,8 @@ namespace lsp
             "plugins/dynamics/expander/single.xml",
             NULL,
             stereo_plugin_sidechain_port_groups,
-            &expander_bundle
+            &expander_bundle,
+            6
         };
         LSP_REGISTER_METADATA(sc_expander_lr);
 
@@ -587,7 +594,8 @@ namespace lsp
             "plugins/dynamics/expander/single.xml",
             NULL,
             stereo_plugin_sidechain_port_groups,
-            &expander_bundle
+            &expander_bundle,
+            8
         };
         LSP_REGISTER_METADATA(sc_expander_ms);
 
