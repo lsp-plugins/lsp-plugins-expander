@@ -1,7 +1,16 @@
 {
 	"expander": {
-		"name": "Expander",
-		"description": "This plugin performs increasing of dynamic range of input signal.\nFlexible sidechain-control configuration provided. Both downward\nand upward modes are available. Also additional dry/wet control\nallows to mix processed and unprocessed signal together."
+		"description": "This plugin performs increasing of dynamic range of input signal.\nFlexible sidechain-control configuration provided. Both downward\nand upward modes are available. Also additional dry/wet control\nallows to mix processed and unprocessed signal together.",
+		"name": "Expander"
+	},
+	"launcher": {
+		"expander_lr": "LR",
+		"expander_mono": "Mono",
+		"expander_ms": "MS",
+		"expander_stereo": "Stereo",
+		"sc_expander_lr": "SC LR",
+		"sc_expander_mono": "SC Mono",
+		"sc_expander_ms": "SC MS",
+		"sc_expander_stereo": "SC Stereo"
 	}
 }
-
